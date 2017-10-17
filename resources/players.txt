@@ -1,0 +1,3 @@
+Bronze;Bronze;20;54321;2
+Armor;90;10;5;Distracts opponents;Bronze;3;Bikini
+Weapon;85;5;2;Sword;Bleed Effect 2s;Bronze;5;Cuthroat Sword

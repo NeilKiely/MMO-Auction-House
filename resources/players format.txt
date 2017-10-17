@@ -1,0 +1,5 @@
+username;tier;tax;startingMoney;numberOfItems
+Armor;durability;armorPoints;magicPoints;effect;itemTier;tax;name
+Weapon;durability;armorDamage;magicDamage;typeOfWeapon;effect;itemTier;tax;name
+
+Make sure noone has the username "Armor" or "Weapon"
