@@ -19,7 +19,7 @@ public class MMOAuctionHouseControl {
 
             switch (selectedMenuOption) {
                 case "Adventure":
-                    selectAdventure();
+                    selectAdventure(currentPlayer);
                     break;
                 case "Buy":
                     selectBuy();
@@ -70,10 +70,41 @@ public class MMOAuctionHouseControl {
         return inv;
     }
     
-    private void selectAdventure() {
+    private void selectAdventure(Player currentPlayer) {
         System.out.println("Adventure Time!");
         System.out.println("Come on, grab your friends!");
         System.out.println("We'll go to very distant lands!");
+		Adventure adventure = new Adventure(currentPlayer);
+		boolean keepLooping = true;
+		while (keepLooping) {
+            String selectedMenuOption = MenuControl.selectDifficulty();
+
+            switch (selectedMenuOption) {
+                case "Bronze":
+                    adventure.calculateBronzeRisk();
+                    break;
+                 case "Silver":
+                     if (currentPlayer.getTier().equals("Silver") || currentPlayer.getTier().equals("Gold"))   
+                        adventure.calculateBronzeRisk();
+                     else
+                         System.out.println("You are a " + currentPlayer.getTier() + " Tier. You need to be silver or higher to access this adventure.");
+                    break;
+                case "Gold":
+                    if (currentPlayer.getTier().equals("Gold"))
+                        adventure.calculateBronzeRisk();
+                    else
+                        System.out.println("You are a " + currentPlayer.getTier() + " Tier. You need to be gold.");
+                    break;
+                case "Exit Adventure":
+                    System.out.println("Your adventure has ended!");
+                    keepLooping = false;
+                    break;
+                default:
+                    System.out.println("Uh oh! Something went wrong");
+                    break;
+            }
+        }
+		
     }
     
     private void selectBuy() {

@@ -75,4 +75,25 @@ public class Item {
         
         return result;
     }
+    
+    public static Item generateItem(String tier)
+    {
+        //this is placeholder for a more robust item generator
+
+        //int durablitiy = (int)Math.random() * 10 + 1;
+        String itemType[] = {"Weapon", "Armour"};
+        int choice = (int) Math.random() * itemType.length;
+        String itemTypeChoice = itemType[choice];
+        Item item = null;
+        if (itemTypeChoice.compareTo("Weapon") == 0)
+        {
+            item = new Item(2, 5, 5, "", "Staff", tier, 20, "Chris's Gordon Ramsey Staff of Pleasure");
+        }
+        if (itemTypeChoice.compareTo("Armour") == 0)
+        {
+            item = new Item(2, 5, 5, "", tier, 20, "Chris's Gordon Ramsey Robe of Pleasure");
+        }
+        
+        return item;
+    }
 }

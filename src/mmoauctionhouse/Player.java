@@ -33,6 +33,11 @@ public abstract class Player {
         this.tier = tier;
     }
     
+    public String getTier()
+    {
+        return tier;
+    }
+    
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
@@ -67,4 +72,11 @@ public abstract class Player {
         
         return result;
     }
+    
+    public void addItem(Item item)
+    {
+        inventory.addItem(item);
+    }
+    
+    public abstract double getRisk();
 }

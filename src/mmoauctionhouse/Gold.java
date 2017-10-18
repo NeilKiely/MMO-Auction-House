@@ -18,4 +18,10 @@ public class Gold extends Player {
     public int calculateTax(int cost) {
         return (int) (cost / 100.0 * getTax());
     }
+    
+    @Override
+    public double getRisk()
+    {
+        return 0.9;
+    }
 }
