@@ -7,6 +7,8 @@ package mmoauctionhouse;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 /**
  *
  * @author jhonata
@@ -25,7 +27,7 @@ public class SellControl {
         System.out.println("These are the items avalaible");
         System.out.println(inventory.toString());
         
-        System.out.println("Enter a number for a itme you want to sell");
+        System.out.println("Enter a number for a item you want to sell");
         String in = input.nextLine();
         int index = Integer.parseInt(in);
         Item itemToSell = inventory.getItem((index-1));
@@ -50,7 +52,9 @@ public class SellControl {
     private void writeToFile(String aItem){
         try
         {
-            String filename= "C:\\Users\\jhonata\\Documents\\GitHub\\MMO-Auction-House\\ItemsOnSale.txt";
+            Path currentRelativePath = Paths.get("");
+            String s = currentRelativePath.toAbsolutePath().toString();
+            String filename = s + "\\ItemsOnSale.txt";
             FileWriter fw = new FileWriter(filename,true); //the true will append the new data
             fw.write(aItem);
             fw.write("\r\n");                //appends the string to the file
