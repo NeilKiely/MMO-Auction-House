@@ -21,4 +21,8 @@ public class SilverItemTier implements ItemTier {
     public String getItemTier() {
         return itemTier;
     }
+    public String toString(){
+        String result = ";" + itemTier + ";" + tax;
+        return result;
+    }
 }

@@ -66,9 +66,7 @@ public abstract class Player {
         result += "\nCoins(Bronze/Silver/Gold) = (" + wallet.getBronzeCoins() + "/" + wallet.getSilverCoins() + "/" + wallet.getGoldCoins() + ")";
         result += "\n" + numOfItems + " items:";
         
-        for (int i = 0; i < numOfItems; i++) {
-            result += "\n" + inventory.getItem(i).toString();
-        }
+        result += inventory.toString();
         
         return result;
     }
@@ -79,4 +77,7 @@ public abstract class Player {
     }
     
     public abstract double getRisk();
+    public Inventory getInventory(){
+        return this.inventory ;
+    }
 }

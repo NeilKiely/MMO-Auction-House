@@ -44,4 +44,14 @@ public class Inventory {
     public int getNumOfItems() {
         return items.size();
     }
+    public String toString(){
+        String result = "";
+         for (int i = 0; i < items.size(); i++) {
+            result += "\n"+ (i+1) +". " + this.getItem(i).toString();
+        }
+        return result ;
+    } 
+    public void removeItem(int index){
+        items.remove(index);
+    }
 }

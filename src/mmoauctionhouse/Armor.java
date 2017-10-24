@@ -22,4 +22,10 @@ public class Armor extends Type {
         
         return result;
     }
+    public String toStringToFile(){
+        String result = ";" + armorPoints;
+        result += ";" + magicPoints;
+        
+        return result;
+    }
 }

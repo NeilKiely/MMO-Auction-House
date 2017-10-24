@@ -1,0 +1,2 @@
+Bikini;Armor;10;5;Bronze;3.0;90;10.0;Bronze
+Chris's Gordon Ramsey Staff of Pleasure;Weapon;5;5;;Bronze;20.0;2;5.0;Bronze

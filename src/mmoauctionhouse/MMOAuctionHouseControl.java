@@ -25,7 +25,7 @@ public class MMOAuctionHouseControl {
                     selectBuy();
                     break;
                 case "Sell":
-                    selectSell();
+                    selectSell(currentPlayer);
                     break;
                 case "Quit":
                     System.out.println("Bye bye!");
@@ -111,7 +111,11 @@ public class MMOAuctionHouseControl {
         System.out.println("Buy selected");
     }
     
-    private void selectSell() {
+    private void selectSell(Player currentPlayer) {
         System.out.println("Sell selected");
+        
+        SellControl sell = new SellControl(currentPlayer);
+        sell.listItems();
+        
     }
 }

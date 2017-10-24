@@ -8,4 +8,5 @@ package mmoauctionhouse;
 public interface ItemTier {
     public double getTax();
     public String getItemTier();
+    public String toString();
 }
