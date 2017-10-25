@@ -18,11 +18,7 @@ public class SellControl {
     private Player currentPlayer;
     
     public SellControl(Player aPlayer) {
-<<<<<<< HEAD
        
-=======
-        
->>>>>>> 6cf2be6aacd8bc491712a911eb0e31209072422b
         currentPlayer = aPlayer;
     }
     public void listItems(){

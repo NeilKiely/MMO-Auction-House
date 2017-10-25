@@ -1,6 +1,3 @@
 Bikini;Armor;10;5;Bronze;3.0;90;10203.0;Bronze
 Cuthroat Sword;Weapon;5;2;Sword;Bronze;5.0;85;10203.0;Bronze
-<<<<<<< HEAD
 Chris's Gordon Ramsey Staff of Pleasure;Weapon;5;5;;Bronze;20.0;2;70.0;Bronze
-=======
->>>>>>> 6cf2be6aacd8bc491712a911eb0e31209072422b
