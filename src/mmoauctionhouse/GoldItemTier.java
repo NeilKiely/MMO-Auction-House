@@ -21,4 +21,8 @@ public class GoldItemTier implements ItemTier {
     public String getItemTier() {
         return itemTier;
     }
+    public String toString(){
+        String result = ";" + itemTier + ";" + tax;
+        return result;
+    }
 }

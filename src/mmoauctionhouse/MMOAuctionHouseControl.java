@@ -1,5 +1,7 @@
 package mmoauctionhouse;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Vilius
@@ -25,8 +27,11 @@ public class MMOAuctionHouseControl {
                     selectBuy();
                     break;
                 case "Sell":
-                    selectSell();
+                    selectSell(currentPlayer);
                     break;
+                case "Buy Coins":
+                    buyCoins(currentPlayer);
+                    break;    
                 case "Quit":
                     System.out.println("Bye bye!");
                     keepLooping = false;
@@ -78,7 +83,8 @@ public class MMOAuctionHouseControl {
 		boolean keepLooping = true;
 		while (keepLooping) {
             String selectedMenuOption = MenuControl.selectDifficulty();
-
+            
+            
             switch (selectedMenuOption) {
                 case "Bronze":
                     adventure.calculateBronzeRisk();
@@ -111,7 +117,71 @@ public class MMOAuctionHouseControl {
         System.out.println("Buy selected");
     }
     
-    private void selectSell() {
+    private void selectSell(Player currentPlayer) {
         System.out.println("Sell selected");
+        
+        SellControl sell = new SellControl(currentPlayer);
+        sell.listItems();
+        
+    }
+    
+    private void buyCoins(Player currentPlayer){
+        //System.out.println("Buying Coins");
+        System.out.println("Please select or add a new Credit Card");
+		boolean keepLooping = true;
+		while (keepLooping) {
+            String selectedMenuOption = MenuControl.selectCreditCardOptions();
+            
+            switch (selectedMenuOption) {
+                case "Show Credit Cards":
+                    currentPlayer.displayCreditCards();
+                    break;
+                 case "Add Credit Card (Max. 5)":
+                     AddCreditCard(currentPlayer);
+                    break;
+                 case "Remove Credit Card":
+                     RemoveCreditCard(currentPlayer);
+                    break;
+                 case "Exit":
+                     keepLooping = false;
+                 break;
+                default:
+                    System.out.println("Uh oh! Something went wrong");
+                    break;
+            }
+        }
+	
+    }
+    
+    private void AddCreditCard(Player currentPlayer)
+    {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Please enter your first name: ");
+        String firstName = in.nextLine();
+        System.out.println("Please enter your last name: ");
+        String lastName = in.nextLine();
+        System.out.println("Please enter your card number: ");
+        String cardNo = in.nextLine();
+        System.out.println("Please enter your cards date (FORMAT MM/YY) ");
+        String expDate = in.nextLine();
+        System.out.println("Please enter your csv number: ");
+        String csvNo = in.nextLine();
+        boolean makeCard = CreditCard.validateCreditCardInformation(cardNo, csvNo, expDate);
+        if (makeCard)
+        {
+            CreditCard card = new CreditCard(firstName, lastName, cardNo, expDate, csvNo);
+            currentPlayer.addCreditCard(card);
+        }
+        else
+            System.out.println("Incorrect details");
+    }
+    
+    private void RemoveCreditCard(Player currentPlayer)
+    {
+       Scanner in = new Scanner(System.in);
+       System.out.println("Please enter the number of the card you want to remove: ");
+       String cardNo = in.nextLine();
+       currentPlayer.removeCreditCard(cardNo);
     }
 }
+ 

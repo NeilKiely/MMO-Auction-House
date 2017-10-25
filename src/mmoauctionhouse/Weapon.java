@@ -24,4 +24,11 @@ public class Weapon extends Type {
         
         return result;
     }
+    public String toStringToFile() {
+        String result = ";" + magicDamage;
+        result += ";" + armorDamage;
+        result += ";" + typeOfWeapon;
+        
+        return result;
+    }
 }

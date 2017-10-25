@@ -15,6 +15,7 @@ public abstract class Player {
     private String tier;
     private Inventory inventory;
     private String username;
+    private CreditCard[] creditCard = new CreditCard[5];
     
     public abstract int calculateTax(int cost);
     public Wallet getWallet() {
@@ -66,9 +67,7 @@ public abstract class Player {
         result += "\nCoins(Bronze/Silver/Gold) = (" + wallet.getBronzeCoins() + "/" + wallet.getSilverCoins() + "/" + wallet.getGoldCoins() + ")";
         result += "\n" + numOfItems + " items:";
         
-        for (int i = 0; i < numOfItems; i++) {
-            result += "\n" + inventory.getItem(i).toString();
-        }
+        result += inventory.toString();
         
         return result;
     }
@@ -79,4 +78,55 @@ public abstract class Player {
     }
     
     public abstract double getRisk();
+    public Inventory getInventory(){
+        return this.inventory ;
+    }
+    
+    public boolean addCreditCard(CreditCard creditCard)
+    {
+       for(int i = 0; i < this.creditCard.length; i++)
+       {
+           if (this.creditCard[i] == null) 
+           {
+               this.creditCard[i] = creditCard;
+               System.out.println("Credit Card Added to Player!");
+               return true;
+           }
+       }
+       System.out.println("Error: Too many credit cards added for this Account");
+       return false;
+    }
+    
+    public boolean removeCreditCard(String cardNo)
+    {
+        for (int i = 0; i < this.creditCard.length; i++)
+        {
+            if (this.creditCard[i] != null)
+            {
+                if(this.creditCard[i].getCardNo().equalsIgnoreCase(cardNo))
+                {
+                this.creditCard[i] = null;
+                System.out.println("Credit Card removed!");
+                return true;
+                }
+            }
+        }
+        System.out.println("There were no Credit Cards matching that number");
+        return false;
+    }
+    
+    public void displayCreditCards()
+    {
+        int count = 0;
+        for (int i = 0; i < this.creditCard.length; i++)
+        {
+            if (this.creditCard[i] != null)
+            {
+                System.out.println(this.creditCard[i].toString());
+                count++;
+            }
+        }
+        if (count == 0)
+            System.out.println("There are no credit cards to display");
+    }
 }

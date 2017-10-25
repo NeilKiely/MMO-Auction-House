@@ -52,7 +52,10 @@ public class Item {
                 break;
         }
     }
-    
+    public double getTax(){
+        return itemTier.getTax();
+        
+    }
     public String getItemTier() {
         return itemTier.getItemTier();
     }
@@ -72,6 +75,16 @@ public class Item {
     public String toString() {
         String result = name + ";";
         result += type.toString();
+        
+        return result;
+    }
+    public String toStringToFile() {
+        String result = name ;
+        result += ";" + itemTypeString;
+        result += type.toStringToFile();
+        result += itemTier.toString();
+        result += ";" + durability ;
+        
         
         return result;
     }
