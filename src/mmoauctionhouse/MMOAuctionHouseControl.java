@@ -123,6 +123,7 @@ public class MMOAuctionHouseControl {
         SellControl sell = new SellControl(currentPlayer);
         sell.listItems();
         
+<<<<<<< HEAD
     }
     
     private void buyCoins(Player currentPlayer){
@@ -182,6 +183,8 @@ public class MMOAuctionHouseControl {
        System.out.println("Please enter the number of the card you want to remove: ");
        String cardNo = in.nextLine();
        currentPlayer.removeCreditCard(cardNo);
+=======
+>>>>>>> 6cf2be6aacd8bc491712a911eb0e31209072422b
     }
 }
  

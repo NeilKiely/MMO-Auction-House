@@ -81,6 +81,7 @@ public abstract class Player {
     public Inventory getInventory(){
         return this.inventory ;
     }
+<<<<<<< HEAD
     
     public boolean addCreditCard(CreditCard creditCard)
     {
@@ -129,4 +130,6 @@ public abstract class Player {
         if (count == 0)
             System.out.println("There are no credit cards to display");
     }
+=======
+>>>>>>> 6cf2be6aacd8bc491712a911eb0e31209072422b
 }
