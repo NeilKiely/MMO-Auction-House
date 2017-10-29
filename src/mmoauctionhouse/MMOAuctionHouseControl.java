@@ -76,15 +76,12 @@ public class MMOAuctionHouseControl {
     }
     
     private void selectAdventure(Player currentPlayer) {
-        System.out.println("Adventure Time!");
-        System.out.println("Come on, grab your friends!");
-        System.out.println("We'll go to very distant lands!");
-		Adventure adventure = new Adventure(currentPlayer);
-		boolean keepLooping = true;
-		while (keepLooping) {
+        Adventure adventure = new Adventure(currentPlayer);
+        boolean keepLooping = true;
+        while (keepLooping) {
             String selectedMenuOption = MenuControl.selectDifficulty();
-            
-            
+
+
             switch (selectedMenuOption) {
                 case "Bronze":
                     adventure.calculateBronzeRisk();
@@ -110,7 +107,6 @@ public class MMOAuctionHouseControl {
                     break;
             }
         }
-		
     }
     
     private void selectBuy() {

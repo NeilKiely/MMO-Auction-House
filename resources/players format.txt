@@ -1,5 +1,15 @@
 username;tier;tax;startingMoney;numberOfItems
-Armor;durability;armorPoints;magicPoints;effect;itemTier;tax;name
-Weapon;durability;armorDamage;magicDamage;typeOfWeapon;effect;itemTier;tax;name
+Armor/Weapon;type;name;tier;baseTax;effect1;effect2;...effectN
+Armor/Weapon;type;name;tier;baseTax;effect1;effect2;...effectN
 
-Make sure noone has the username "Armor" or "Weapon"
+Make sure noone has the username of any types e.g. "Chest" or "Dagger"
+
+Armor types:
+Chest, Head, Gloves, Shoes
+Weapon types:
+Dagger, Sword, Club, Hammer
+
+Armor decorators:
+Dexterity, Reflect, Regeneration, Sneak, Vitality
+Weapon decorators:
+CritChance, CritDamage, LifeSteal, Poison, Slow

@@ -1,6 +1,7 @@
 
 package mmoauctionhouse;
 
+import itempackage.*;
 import java.util.*;
 
 public class Inventory {
@@ -15,21 +16,11 @@ public class Inventory {
      * @author Vilius
      */
     public Inventory(String[] items) {
-        String[] temp;
+        ItemFactoryInterface itemFactory = new ItemFactory();
         this.items = new ArrayList<Item>();
         
         for (int i = 0; i < items.length; i++) {
-            temp = items[i].split(";");
-            
-            if (temp[0].equals("Armor")) {
-                Item item = new Item(Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]),
-                                    temp[4], temp[5], Double.parseDouble(temp[6]), temp[7]);
-                addItem(item);
-            } else if (temp[0].equals("Weapon")) {
-                Item item = new Item(Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]),
-                                    temp[4], temp[5], temp[6], Double.parseDouble(temp[7]), temp[8]);
-                addItem(item);
-            }
+            addItem(itemFactory.createItemFromString(items[i]));
         }
     }
     
@@ -47,7 +38,7 @@ public class Inventory {
     public String toString(){
         String result = "";
          for (int i = 0; i < items.size(); i++) {
-            result += "\n"+ (i+1) +". " + this.getItem(i).toString();
+            result += "\n"+ (i+1) +". " + this.getItem(i).getDescription();
         }
         return result ;
     } 

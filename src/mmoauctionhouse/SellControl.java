@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package mmoauctionhouse;
+import itempackage.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;

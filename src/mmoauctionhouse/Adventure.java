@@ -10,6 +10,8 @@
  */
 package mmoauctionhouse;
 
+import itempackage.*;
+
 public class Adventure
 {
 	Player player = null;
@@ -18,6 +20,11 @@ public class Adventure
 	{
 		this.player = player;
 	}
+        
+        private Item createItem(String tier) {
+            ItemFactoryInterface itemFactory = new ItemFactory();
+            return itemFactory.createRandomItem(tier);
+        }
 	
 	public void calculateBronzeRisk()
         {
@@ -31,7 +38,7 @@ public class Adventure
 		if (risk > result)
 		{
 			System.out.println("You win");
-			Item testItem = Item.generateItem("Bronze");
+			Item testItem = createItem("Bronze");
                         player.addItem(testItem);
                         //System.out.println(testItem);
                         System.out.println(player.toString());
@@ -64,7 +71,7 @@ public class Adventure
 		if (risk > result)
 		{
 			System.out.println("You win");
-			Item testItem = Item.generateItem("Silver");
+			Item testItem = createItem("Silver");
                         player.addItem(testItem);
                         //System.out.println(testItem);
                         System.out.println(player.toString());
@@ -96,7 +103,7 @@ public class Adventure
 		if (risk > result)
 		{
 			System.out.println("You win");
-			Item testItem = Item.generateItem("Gold");
+			Item testItem = createItem("Gold");
                         player.addItem(testItem);
                         //System.out.println(testItem);
                         System.out.println(player.toString());

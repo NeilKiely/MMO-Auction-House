@@ -1,2 +1,2 @@
-Bronze;Pass123
-Bronze;Pass124
+bronze123;pass123
+bronze124;Pass124

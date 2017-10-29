@@ -5,6 +5,8 @@
  */
 package mmoauctionhouse;
 
+import itempackage.*;
+
 /**
  *
  * @author Vilius
