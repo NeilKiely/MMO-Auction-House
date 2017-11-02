@@ -35,6 +35,40 @@ public class LoginControl {
         return users.get(userIndex);
     }
     
+    public static void registerAUser() {
+        Scanner in = new Scanner(System.in);
+        boolean validName = false;
+        boolean validPassword = false;
+        String invalidNames = "Chest Head Gloves Shoes Club Dagger Hammer Sword";
+        String username, password;
+        
+        while (!validName || !validPassword) {
+            validName = false;
+            validPassword = false;
+            
+            System.out.println("Enter your desired username");
+            username = in.nextLine();
+            
+            System.out.println("Enter your desired password");
+            password = in.nextLine();
+            
+            if (username.length() >= 4 && !invalidNames.contains(username) && !username.contains(";")) {
+                validName = true;
+            } else {
+                System.out.println("Invalid username");
+            }
+            
+            if (password.length() >= 4 && !password.contains(";")) {
+                validPassword = true;
+            } else {
+                System.out.println("Invalid password");
+            }
+        }
+        
+        System.out.println("Successfully registered");
+        // TODO: write username and password to users file
+    }
+    
     /**
      * Checks if the login details match with the existing login details
      * @author Vilius

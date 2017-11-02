@@ -76,10 +76,6 @@ public class MenuControl {
         
         return selectedOption;
     }
-    /**
-     * outputs all available options onto the screen
-     * @author Vilius
-     */
     
     /* @author Chris & Neil
     */
@@ -220,6 +216,28 @@ public class MenuControl {
             numInput = Integer.parseInt(input);
             if (numInput > 0 && numInput <= cards.length) {
                 selectedOption = cards[numInput - 1];
+            } else {
+                System.out.println("Invalid menu option selection");
+            }
+        }
+        
+        return selectedOption;
+    }
+    
+    public static String selectAuthenticationOption() {
+        Scanner in = new Scanner(System.in);
+        String[] menuOptions = {"Login", "Register"};
+        String selectedOption = "";
+        int numInput;
+        
+        while (selectedOption.isEmpty()) {
+            displayOptions(menuOptions);
+            System.out.println("Please select one of the options by typing in a number:");
+            
+            String input = in.nextLine();
+            numInput = Integer.parseInt(input);
+            if (numInput > 0 && numInput <= menuOptions.length) {
+                selectedOption = menuOptions[numInput - 1];
             } else {
                 System.out.println("Invalid menu option selection");
             }
