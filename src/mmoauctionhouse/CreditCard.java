@@ -75,34 +75,85 @@ public class CreditCard {
         String details = this.firstName + " " + this.lastName + ": Card ending in *" + cardHidden;
         return details;
     }
+    
+    public String getLastFourDigits()
+    {
+        return this.cardNo.substring(this.cardNo.length() - 4);
+    }
    
     /*
     authors Neil & Chris
-    Hasn't been tested yet.
     */
-    public static boolean validateCreditCardInformation(String cardNo, String csvNo, String expDate)
-    {
-        Pattern visa = Pattern.compile("^4[0-9]{12}(?:[0-9]{3})?$");
-        Pattern mastercard = Pattern.compile("^5[1-5][0-9]{14}$");
-        Pattern date = Pattern.compile("[0-9]{2}/[0-9]{2}");
-        
-        if (visa.matcher(cardNo).matches() || mastercard.matcher(cardNo).matches())
+    public static boolean validateCreditCardInformation(String cardNo)
         {
-            //System.out.println("Correct CardNo!");
-            if (csvNo.length() == 3)
+            Pattern visa = Pattern.compile("^4[0-9]{12}(?:[0-9]{3})?$");
+            Pattern mastercard = Pattern.compile("^5[1-5][0-9]{14}$");
+
+            if (visa.matcher(cardNo).matches() || mastercard.matcher(cardNo).matches())
             {
-               //System.out.println("Correct CSV!");
-                if (date.matcher(expDate).matches())
-                {
-                    Calendar cal = new GregorianCalendar();
-                    int month = cal.get(Calendar.MONTH);
-                    int year = cal.get(Calendar.YEAR);
-                    
-                    //System.out.print("Card Added!");
-                    return true;
-                }
+                //System.out.println("Correct CardNo!");
+                return true;
             }
+            System.out.println("Incorrect Card Numebr");
+            return false;
         }
-        return false;
+
+
+    public static boolean validateCsvNo(String csvNo)
+    {
+    try
+    {
+        int i = Integer.parseInt(csvNo);
+         if (csvNo.length() == 3)
+            {
+                    return true;
+            }
     }
+    catch(Exception e)
+        {
+        System.out.println("Incorrect CSV format");
+        return false;
+        }
+    System.out.println("Incorrect CSV format");
+    return false;
+    }
+
+    public static boolean vaildateDate(String expDate)
+    {
+    Pattern date = Pattern.compile("[0-9]{2}/[0-9]{2}");
+
+    if (date.matcher(expDate).matches())
+                    {
+                        Calendar cal = new GregorianCalendar();
+                        int month = cal.get(Calendar.MONTH);
+                        int year = cal.get(Calendar.YEAR);
+                        year = year % 2000;
+                        //System.out.println(month);
+                        //System.out.println(year);
+                        //System.out.println("calendar created");
+                        String [] dates = expDate.split("/");
+                        try 
+                        {
+                            //System.out.println("in try loop");
+                            int monthCheck = Integer.parseInt(dates[0]);
+                            int yearCheck = Integer.parseInt(dates[1]);
+                            //System.out.println("split expdate");
+                            if (yearCheck > year)
+                                return true;
+                            else if (yearCheck == year && monthCheck >= month)
+                                return true;
+                        }
+                        catch (Exception e)
+                        {
+                            System.out.println("Incorrect Date format");
+                            return false;
+                        }
+                        
+                        //System.out.print("Card Added!");
+                    }
+    System.out.println("Incorrect Date format");
+    return false;
+    }
+
+
 }

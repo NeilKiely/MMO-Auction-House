@@ -17,7 +17,24 @@ public abstract class Player {
     private String tier;
     private Inventory inventory;
     private String username;
+    private CreditCard primaryCard;
     private CreditCard[] creditCard = new CreditCard[5];
+
+    public CreditCard[] getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCard[] creditCard) {
+        this.creditCard = creditCard;
+    }
+
+    public CreditCard getPrimaryCard() {
+        return primaryCard;
+    }
+
+    public void setPrimaryCard(CreditCard primaryCard) {
+        this.primaryCard = primaryCard;
+    }
     
     public abstract int calculateTax(int cost);
     public Wallet getWallet() {
@@ -86,7 +103,9 @@ public abstract class Player {
     
     public boolean addCreditCard(CreditCard creditCard)
     {
-       for(int i = 0; i < this.creditCard.length; i++)
+       if (!checkHasCard())
+           this.primaryCard = creditCard;
+        for(int i = 0; i < this.creditCard.length; i++)
        {
            if (this.creditCard[i] == null) 
            {
@@ -107,9 +126,19 @@ public abstract class Player {
             {
                 if(this.creditCard[i].getCardNo().equalsIgnoreCase(cardNo))
                 {
-                this.creditCard[i] = null;
-                System.out.println("Credit Card removed!");
-                return true;
+                    this.creditCard[i] = null;
+                    if (this.creditCard[i] == primaryCard)
+                    {
+                        this.primaryCard = null;
+                        if (checkHasCard())
+                            for (int j = 0; j < this.creditCard.length; j++)
+                            {
+                                if (this.creditCard[j] != null)
+                                    this.primaryCard = creditCard[i];
+                            }
+                    }
+                    System.out.println("Credit Card removed!");
+                    return true;
                 }
             }
         }
@@ -130,5 +159,29 @@ public abstract class Player {
         }
         if (count == 0)
             System.out.println("There are no credit cards to display");
+    }
+    
+    public String [] getCreditCardsStringArray()
+    {
+        String [] result = new String [5];
+        for (int i = 0; i < result.length; i++)
+        {
+            if (this.creditCard[i] != null)
+            {
+                result[i] = this.creditCard[i].getCardNo().substring(this.creditCard[i].getCardNo().length() - 4);
+            }
+        }
+        return result;
+    }
+    
+    public boolean checkHasCard()
+    {
+        boolean hasCard = false;
+        for (int i = 0; i < 5; i++)
+        {
+            if (this.creditCard[i] != null)
+                hasCard = true;
+        }
+        return hasCard;
     }
 }
