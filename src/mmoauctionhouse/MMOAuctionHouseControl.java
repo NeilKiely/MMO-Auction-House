@@ -24,7 +24,7 @@ public class MMOAuctionHouseControl {
                     selectAdventure(currentPlayer);
                     break;
                 case "Buy":
-                    selectBuy();
+                    selectBuy(currentPlayer);
                     break;
                 case "Sell":
                     selectSell(currentPlayer);
@@ -109,8 +109,11 @@ public class MMOAuctionHouseControl {
         }
     }
     
-    private void selectBuy() {
+    private void selectBuy(Player currentPlayer) {
         System.out.println("Buy selected");
+        
+        BuyControl buy = new BuyControl(currentPlayer);
+        buy.listItems();
     }
     
     private void selectSell(Player currentPlayer) {

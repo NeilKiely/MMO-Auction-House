@@ -33,8 +33,8 @@ public class Head implements Item {
     }
     
     public String toStringToFile() {
-        String result = name;
-        result += ";" + this.getClass().getSimpleName();
+        String result = this.getClass().getSimpleName();
+        result += ";" + name;
         result += ";" + tier;
         result += ";" + baseTax;
         

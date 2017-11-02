@@ -1,1 +1,0 @@
-Bulletproof Vest;Chest;Silver;4.0;Vitality=3;Dexterity=1;40302.0;bronze123
