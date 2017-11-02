@@ -3,21 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/Chest.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/Wallet.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/Player.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/ItemFactoryInterface.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/Inventory.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/InventoryToBuy.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/Dagger.java</file>
             <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/ReadWriteControl.java</file>
+            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/Chest.java</file>
             <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/MMOAuctionHouseControl.java</file>
             <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/Item.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/ItemFactory.java</file>
+            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/ArmorDecorator.java</file>
+            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/Wallet.java</file>
             <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/BuyControl.java</file>
             <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/SellControl.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/PlayerTierFactory.java</file>
             <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/ItemToBuy.java</file>
+            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/Player.java</file>
+            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/InventoryToBuy.java</file>
         </group>
     </open-files>
 </project-private>

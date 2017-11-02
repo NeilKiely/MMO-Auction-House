@@ -15,9 +15,6 @@ public class Inventory {
      * Creates items from a string array and adds them to the items ArrayList
      * @author Vilius
      */
-    public Inventory(){
-        this.items = new ArrayList<Item>();
-    }
     public Inventory(String[] items) {
         ItemFactoryInterface itemFactory = new ItemFactory();
         this.items = new ArrayList<Item>();

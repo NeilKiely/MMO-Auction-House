@@ -84,14 +84,14 @@ public class Wallet {
             return false;
         }
     }
-     public boolean hasEnough(int total) {
+    public boolean hasEnough(int total) {
      
          if (balance - total >= 0) {
             return true;
         } else {
             return false;
         }
-     }
+    }
     
     /**
      *
