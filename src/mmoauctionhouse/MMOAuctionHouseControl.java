@@ -1,5 +1,6 @@
 package mmoauctionhouse;
 
+import mmoauctionhouse.creditcardpackage.CreditCard;
 import java.util.Scanner;
 
 /**

@@ -5,6 +5,7 @@
  */
 package mmoauctionhouse;
 
+import mmoauctionhouse.creditcardpackage.CreditCard;
 import itempackage.*;
 
 /**

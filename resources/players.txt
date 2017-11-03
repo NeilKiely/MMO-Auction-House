@@ -5,3 +5,5 @@ Dagger;Switchblade;Bronze;1.0;LifeSteal=1;CritChance=3;CritDamage=2
 bronze124;Bronze;20;54321;0
 
 worm00111;Bronze;20;0;0
+
+jj123;Bronze;20;0;0
