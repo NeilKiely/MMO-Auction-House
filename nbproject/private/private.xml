@@ -3,17 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/ReadWriteControl.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/Chest.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/MMOAuctionHouseControl.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/Item.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/ArmorDecorator.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/Wallet.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/BuyControl.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/SellControl.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/itempackage/ItemToBuy.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/Player.java</file>
-            <file>file:/C:/Users/jhonata/Documents/GitHub/MMO-Auction-House/src/mmoauctionhouse/InventoryToBuy.java</file>
+            <file>file:/C:/Users/vdrum/OneDrive/workarea/programming/2017/Systems%20Analysis%20and%20Design/MMO%20Auction%20House/MMOAuctionHouse/src/mmoauctionhouse/LoginDetails.java</file>
+            <file>file:/C:/Users/vdrum/OneDrive/workarea/programming/2017/Systems%20Analysis%20and%20Design/MMO%20Auction%20House/MMOAuctionHouse/src/mmoauctionhouse/MMOAuctionHouseControl.java</file>
+            <file>file:/C:/Users/vdrum/OneDrive/workarea/programming/2017/Systems%20Analysis%20and%20Design/MMO%20Auction%20House/MMOAuctionHouse/src/mmoauctionhouse/LoginControl.java</file>
+            <file>file:/C:/Users/vdrum/OneDrive/workarea/programming/2017/Systems%20Analysis%20and%20Design/MMO%20Auction%20House/MMOAuctionHouse/src/mmoauctionhouse/MenuControl.java</file>
+            <file>file:/C:/Users/vdrum/OneDrive/workarea/programming/2017/Systems%20Analysis%20and%20Design/MMO%20Auction%20House/MMOAuctionHouse/src/mmoauctionhouse/ReadWriteControl.java</file>
         </group>
     </open-files>
 </project-private>

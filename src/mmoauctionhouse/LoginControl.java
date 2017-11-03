@@ -41,6 +41,7 @@ public class LoginControl {
         boolean validPassword = false;
         String invalidNames = "Chest Head Gloves Shoes Club Dagger Hammer Sword";
         String username, password;
+        username = password = "";
         
         while (!validName || !validPassword) {
             validName = false;
@@ -65,8 +66,10 @@ public class LoginControl {
             }
         }
         
+        ReadWriteControl.addRegisteredUser(username, password);
         System.out.println("Successfully registered");
-        // TODO: write username and password to users file
+        
+        
     }
     
     /**

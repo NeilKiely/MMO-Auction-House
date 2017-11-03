@@ -1,3 +1,7 @@
 bronze123;Bronze;20;54321;2
 Chest;Bulletproof Vest;Silver;4.0;Vitality=3;Dexterity=1
 Dagger;Switchblade;Bronze;1.0;LifeSteal=1;CritChance=3;CritDamage=2
+
+bronze124;Bronze;20;54321;0
+
+worm00111;Bronze;20;0;0

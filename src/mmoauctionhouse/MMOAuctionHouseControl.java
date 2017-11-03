@@ -13,9 +13,28 @@ public class MMOAuctionHouseControl {
     */
     public MMOAuctionHouseControl() {
         boolean keepLooping = true;
-        LoginDetails currentLogIn = LoginControl.loginProcess();
+        
+        LoginDetails currentLogIn = null;
+        while (keepLooping) {
+            String selectedMenuOption = MenuControl.selectAuthenticationOption();
+            
+            switch (selectedMenuOption) {
+                case "Login":
+                    currentLogIn = LoginControl.loginProcess();
+                    keepLooping = false;
+                    break;
+                case "Register":
+                    LoginControl.registerAUser();
+                    break;
+                default:
+                    System.out.println("ERROR SELECTING AUTHENTICATION OPTION");
+                    break;
+            }
+        }
+        
         Player currentPlayer = retrieveMatchingPlayer(currentLogIn.getUsername());
         
+        keepLooping = true;
         while (keepLooping) {
             String selectedMenuOption = MenuControl.selectOption();
 

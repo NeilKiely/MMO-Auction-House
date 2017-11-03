@@ -7,7 +7,40 @@ import java.util.*;
 
 public class ReadWriteControl {
     /**
-     *
+     * @author Vilius
+     */
+    public static void addRegisteredUser(String username, String password) {
+        try
+        {
+            // Add username details to user.txt
+            Path currentRelativePath = Paths.get("");
+            String s = currentRelativePath.toAbsolutePath().toString();
+            String filename = s + "\\resources\\users.txt";
+            FileWriter fw = new FileWriter(filename, true);
+            
+            fw.write(username + ";" + password);
+            fw.write("\r\n");
+            
+            fw.close();
+            
+            // Create a player template and add it to players.txt
+            s = currentRelativePath.toAbsolutePath().toString();
+            filename = s + "\\resources\\players.txt";
+            fw = new FileWriter(filename, true);
+            
+            fw.write("\r\n");
+            fw.write(username + ";Bronze;20;0;0");
+            fw.write("\r\n");
+            
+            fw.close();
+        }
+        catch(IOException ioe)
+        {
+            System.err.println("IOException: " + ioe.getMessage());
+        }
+    }
+    
+    /**
      * @author Vilius
      */
     public static ArrayList<String> readUserDetails() {
