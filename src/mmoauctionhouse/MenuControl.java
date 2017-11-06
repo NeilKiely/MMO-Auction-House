@@ -9,26 +9,11 @@ public class MenuControl {
      * Asks the user to select one of the available menu options
      * @author Vilius
      */
-    public static String selectOption() {
-        Scanner in = new Scanner(System.in);
+    public static String selectOption(int x) {
+       
         String[] menuOptions = {"Adventure", "Buy", "Sell", "Payment Details", "Buy Coins", "Quit"};
-        String selectedOption = "";
-        int numInput;
         
-        while (selectedOption.isEmpty()) {
-            displayOptions(menuOptions);
-            System.out.println("Please select one of the options by typing in a number:");
-            
-            String input = in.nextLine();
-            numInput = Integer.parseInt(input);
-            if (numInput > 0 && numInput <= menuOptions.length) {
-                selectedOption = menuOptions[numInput - 1];
-            } else {
-                System.out.println("Invalid menu option selection");
-            }
-        }
-        
-        return selectedOption;
+        return menuOptions[x];
     }
     
     public static String selectDifficulty()

@@ -1,7 +1,9 @@
 package mmoauctionhouse;
 
+import UIpackage.UIWindow;
 import mmoauctionhouse.creditcardpackage.CreditCard;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,32 +14,55 @@ public class MMOAuctionHouseControl {
     * Main control class
     * @author Vilius
     */
+    private UIWindow ui;
+    private  Player currentPlayer;
     public MMOAuctionHouseControl() {
-        boolean keepLooping = true;
         
+        ui = new UIWindow(this);
+        
+    }
+    public boolean registerUser(String username,String password,String fName,String lName){
+        
+        boolean registerd = LoginControl.registerAUser(username,password,fName,lName);
+        return registerd;
+    
+    }
+    public boolean loginUser(String userName,String password){
         LoginDetails currentLogIn = null;
+        currentLogIn  =  LoginControl.loginProcess(userName,password);
+        if(currentLogIn != null){
+            currentPlayer = retrieveMatchingPlayer(currentLogIn.getUsername());
+            return true;
+        }else
+            return false;
+    }
+    public void getChoiceLR(){
+        boolean keepLooping = true;
+         LoginDetails currentLogIn = null;
         while (keepLooping) {
             String selectedMenuOption = MenuControl.selectAuthenticationOption();
             
             switch (selectedMenuOption) {
                 case "Login":
-                    currentLogIn = LoginControl.loginProcess();
+                    //currentLogIn = LoginControl.loginProcess();
                     keepLooping = false;
                     break;
                 case "Register":
-                    LoginControl.registerAUser();
+                    //LoginControl.registerAUser();
                     break;
                 default:
                     System.out.println("ERROR SELECTING AUTHENTICATION OPTION");
                     break;
             }
         }
+       currentPlayer = retrieveMatchingPlayer(currentLogIn.getUsername());
+    }
+    public void getAdventure(String tier){
+        JOptionPane.showMessageDialog(null, "tier selected" + tier);
+    }
+    public void Menu(int x){
         
-        Player currentPlayer = retrieveMatchingPlayer(currentLogIn.getUsername());
-        
-        keepLooping = true;
-        while (keepLooping) {
-            String selectedMenuOption = MenuControl.selectOption();
+            String selectedMenuOption = MenuControl.selectOption(x);
 
             switch (selectedMenuOption) {
                 case "Adventure":
@@ -57,13 +82,13 @@ public class MMOAuctionHouseControl {
                     break;
                 case "Quit":
                     System.out.println("Bye bye!");
-                    keepLooping = false;
                     break;
                 default:
                     System.out.println("Uh oh! Something went wrong");
                     break;
             }
-        }
+        
+        
     }
     
     private Player retrieveMatchingPlayer(String username) {

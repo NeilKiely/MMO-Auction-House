@@ -9,49 +9,30 @@ public class LoginControl {
      * until a match with the existing login details is found
      * @author Vilius
      */
-    public static LoginDetails loginProcess() {
-        Scanner in = new Scanner(System.in);
-        boolean validLogin = false;
+    public static LoginDetails loginProcess(String username,String password) {
         int userIndex = -1;
-        String username, password;
         ArrayList<LoginDetails> users = readUsersFromFile();
-        
-        while (!validLogin) {
-            System.out.println("Enter your username:");
-            username = in.nextLine();
-            
-            System.out.println("Enter your password:");
-            password = in.nextLine();
-            
-            userIndex = findUser(username, password, users);
-            if (userIndex == -1) {
-                System.out.println("Invalid login details");
-            } else {
-                System.out.println("Successfully logged in");
-                validLogin = true;
-            }
+      
+        userIndex = findUser(username, password, users);
+        if (userIndex == -1) {
+            System.out.println("Invalid login details");
+        } else {
+            System.out.println("Successfully logged in"); 
         }
         
         return users.get(userIndex);
     }
     
-    public static void registerAUser() {
-        Scanner in = new Scanner(System.in);
+    public static boolean registerAUser(String username,String password,String fName,String lName) {
         boolean validName = false;
         boolean validPassword = false;
         String invalidNames = "Chest Head Gloves Shoes Club Dagger Hammer Sword";
-        String username, password;
-        username = password = "";
+        //String username, password;
         
-        while (!validName || !validPassword) {
+        
+       
             validName = false;
             validPassword = false;
-            
-            System.out.println("Enter your desired username");
-            username = in.nextLine();
-            
-            System.out.println("Enter your desired password");
-            password = in.nextLine();
             
             if (username.length() >= 4 && !invalidNames.contains(username) && !username.contains(";")) {
                 validName = true;
@@ -64,11 +45,15 @@ public class LoginControl {
             } else {
                 System.out.println("Invalid password");
             }
-        }
         
-        ReadWriteControl.addRegisteredUser(username, password);
+        
         System.out.println("Successfully registered");
-        
+        if(validName && validPassword){
+            ReadWriteControl.addRegisteredUser(username, password);
+            return true;
+        }
+        else
+            return false;
         
     }
     
