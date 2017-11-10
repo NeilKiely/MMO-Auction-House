@@ -10,12 +10,13 @@ public class ReadWriteControl {
      * @author Vilius
      */
     public static void addRegisteredUser(String username, String password) {
-        try
-        {
+        //try
+        //{
             // Add username details to user.txt
             Path currentRelativePath = Paths.get("");
             String s = currentRelativePath.toAbsolutePath().toString();
             String filename = s + "\\resources\\users.txt";
+            /*
             FileWriter fw = new FileWriter(filename, true);
             
             fw.write(username + ";" + password);
@@ -33,11 +34,32 @@ public class ReadWriteControl {
             fw.write("\r\n");
             
             fw.close();
-        }
+            */
+            IFile scFile = IFileFactory.getIFile("SCFile");
+            scFile.put(filename);
+            
+            //writing to users.txt
+            String [][] userDetails = new String[1][2];
+            userDetails[0][0] = username;
+            userDetails[0][1] = password;
+            scFile.write(userDetails);
+            
+            s = currentRelativePath.toAbsolutePath().toString();
+            filename = s + "\\resources\\players.txt";
+            
+            //writing to players.txt
+            scFile.put(filename);
+            String [][] playerDetails = new String[1][5];
+            playerDetails[0][0] = username; playerDetails[0][1] = "Bronze"; playerDetails[0][2] = "20";
+            playerDetails[0][3] = "0"; playerDetails[0][4] = "0";
+            scFile.write(playerDetails);
+        //}
+        /*
         catch(IOException ioe)
         {
             System.err.println("IOException: " + ioe.getMessage());
         }
+        */
     }
     
     /**
@@ -49,6 +71,20 @@ public class ReadWriteControl {
         
         File usersFile = new File("resources/users.txt");
         
+        IFile scFile = IFileFactory.getIFile("SCFile");
+        scFile.get(usersFile.getAbsolutePath());
+        String [][] userDetails = scFile.read();
+        for (int i = 0; i < userDetails.length; i++)
+        {
+            String detailsString = "";
+            for (int j = 0 ; j < userDetails[i].length; j++)
+            {
+                detailsString += userDetails[i][j] + scFile.getDelimiter();
+            }
+            detailsString = detailsString.substring(0, detailsString.length() - 1);
+            users.add(detailsString);
+        }
+        /*
         try {
             Scanner in = new Scanner(usersFile);
             
@@ -60,6 +96,7 @@ public class ReadWriteControl {
         } catch (Exception e) {
             System.out.println(e);
         }
+        */
         
         return users;
     }
@@ -67,7 +104,34 @@ public class ReadWriteControl {
     public static String[] readPlayerInventory(String username) {
         File playersFile = new File("resources/players.txt");
         String[] itemsArr = new String[0];
+        boolean foundPlayer = false;
         
+        IFile iFile = IFileFactory.getIFile("SCFile");
+        iFile.get(playersFile.getAbsolutePath());
+        String [][] playerInventory = iFile.read();
+        String [] itemArr = null;
+        
+        for (int i = 0; i < playerInventory.length && !foundPlayer; i++)
+        {
+            if (playerInventory[i][0].equals(username))
+            {
+                foundPlayer = true;
+                int numItems = Integer.parseInt(playerInventory[i][4]);
+                itemArr = new String[numItems];
+                
+                for (int j = 0; j < numItems; j++)
+                {
+                    String itemDetails = null;
+                    for (int k = 0; k < playerInventory[i+j+1].length; k++)
+                    {
+                        itemDetails += playerInventory[j][k] + iFile.getDelimiter(); 
+                    }
+                    itemDetails = itemDetails.substring(0, itemDetails.length() - 1); 
+                    itemArr[j] = itemDetails;
+                }
+            }
+        }
+        /*
         try {
             Scanner in = new Scanner(playersFile);
             boolean foundPlayer = false;
@@ -92,6 +156,7 @@ public class ReadWriteControl {
         } catch (Exception e) {
             System.out.println(e);
         }
+        */
         
         return itemsArr;
     }
@@ -99,7 +164,27 @@ public class ReadWriteControl {
     public static String[] readPlayerInfo(String username) {
         File playersFile = new File("resources/players.txt");
         String[] playerInfoArr = new String[0];
+        boolean foundPlayer = false;
         
+        IFile iFile = IFileFactory.getIFile("SCFile");
+        iFile.get(playersFile.getAbsolutePath());
+        String [][] playerInventory = iFile.read();
+        
+        for (int i =0;  i< playerInventory.length; i++)
+        {
+            if (playerInventory[i][0].equals(username))
+            {
+                foundPlayer = true;
+                for (int j = 0; j < playerInventory[i].length; j++)
+                {
+                    if (j < playerInventory[i].length - 1)
+                        playerInfoArr[j] = playerInventory[i][j] + iFile.getDelimiter();
+                    else
+                        playerInfoArr[j] = playerInventory[i][j];
+                } 
+            }
+        }
+        /*
         try {
             Scanner in = new Scanner(playersFile);
             boolean foundPlayer = false;
@@ -119,6 +204,7 @@ public class ReadWriteControl {
         } catch (Exception e) {
             System.out.println(e);
         }
+        */
         
         return playerInfoArr;
     }
