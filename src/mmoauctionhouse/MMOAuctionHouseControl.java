@@ -118,6 +118,10 @@ public class MMOAuctionHouseControl {
     
     private Inventory retrieveInventory(String username) {
         String[] itemsArr = ReadWriteControl.readPlayerInventory(username);
+        for (int i = 0; i < itemsArr.length; i++)
+        {
+                System.out.println(itemsArr[i]);
+        }
         Inventory inv = new Inventory(itemsArr);
         
         return inv;

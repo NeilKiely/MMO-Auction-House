@@ -103,30 +103,31 @@ public class ReadWriteControl {
     
     public static String[] readPlayerInventory(String username) {
         File playersFile = new File("resources/players.txt");
-        String[] itemsArr = new String[0];
+        String[] itemArr = new String[0];
         boolean foundPlayer = false;
         
         IFile iFile = IFileFactory.getIFile("SCFile");
         iFile.get(playersFile.getAbsolutePath());
         String [][] playerInventory = iFile.read();
-        String [] itemArr = null;
+        //String [] itemArr = null;
         
         for (int i = 0; i < playerInventory.length && !foundPlayer; i++)
         {
             if (playerInventory[i][0].equals(username))
             {
                 foundPlayer = true;
+                System.out.println("Found user");
                 int numItems = Integer.parseInt(playerInventory[i][4]);
                 itemArr = new String[numItems];
                 
                 for (int j = 0; j < numItems; j++)
                 {
-                    String itemDetails = null;
+                    String itemDetails = "";
                     for (int k = 0; k < playerInventory[i+j+1].length; k++)
                     {
-                        itemDetails += playerInventory[j][k] + iFile.getDelimiter(); 
+                        itemDetails += playerInventory[i+j+1][k] + iFile.getDelimiter(); 
                     }
-                    itemDetails = itemDetails.substring(0, itemDetails.length() - 1); 
+                    itemDetails = itemDetails.substring(0, itemDetails.length() - 1);
                     itemArr[j] = itemDetails;
                 }
             }
@@ -158,7 +159,7 @@ public class ReadWriteControl {
         }
         */
         
-        return itemsArr;
+        return itemArr;
     }
     
     public static String[] readPlayerInfo(String username) {
@@ -168,20 +169,15 @@ public class ReadWriteControl {
         
         IFile iFile = IFileFactory.getIFile("SCFile");
         iFile.get(playersFile.getAbsolutePath());
-        String [][] playerInventory = iFile.read();
+        String [][] playerDetails = iFile.read();
         
-        for (int i =0;  i< playerInventory.length; i++)
+        for (int i =0;  i< playerDetails.length; i++)
         {
-            if (playerInventory[i][0].equals(username))
+            if (playerDetails[i][0].equals(username))
             {
                 foundPlayer = true;
-                for (int j = 0; j < playerInventory[i].length; j++)
-                {
-                    if (j < playerInventory[i].length - 1)
-                        playerInfoArr[j] = playerInventory[i][j] + iFile.getDelimiter();
-                    else
-                        playerInfoArr[j] = playerInventory[i][j];
-                } 
+                playerInfoArr = new String[playerDetails[i].length];
+                playerInfoArr = playerDetails[i];
             }
         }
         /*
