@@ -1,2 +1,0 @@
-UIpackage.UIWindow
-UIpackage.WindowEventHandler

@@ -22,6 +22,15 @@ public class SellControl {
        
         currentPlayer = aPlayer;
     }
+    
+    public String[] getItemNames(String tier, String searchFilter) {
+        return currentPlayer.getItemNames(tier, searchFilter);
+    }
+    
+    public String[] getAvailableItemTiers() {
+        return currentPlayer.getAvailableItemTiers();
+    }    
+            
     public void listItems(){
         Scanner input = new Scanner(System.in);
         Inventory inventory = currentPlayer.getInventory();
@@ -47,9 +56,25 @@ public class SellControl {
             //stringForItem += "\n"; 
             writeToFile(stringForItem);
         }
-       
-        
     }
+    
+    public String findItemInformation(String itemName) {
+        return currentPlayer.findItemInformation(itemName);
+    }
+    
+    public int getBronzeCoins() {
+        return currentPlayer.getBronzeCoins();
+    }
+
+    public int getSilverCoins() {
+        return currentPlayer.getSilverCoins();
+    }
+
+    public int getGoldCoins() {
+        System.out.println("all good");
+        return currentPlayer.getGoldCoins();
+    }
+    
     private void writeToFile(String aItem){
         try
         {

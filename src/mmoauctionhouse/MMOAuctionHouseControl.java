@@ -17,9 +17,7 @@ public class MMOAuctionHouseControl {
     private UIWindow ui;
     private  Player currentPlayer;
     public MMOAuctionHouseControl() {
-        
         ui = new UIWindow(this);
-        
     }
     public boolean registerUser(String username,String password,String fName,String lName){
         
@@ -70,9 +68,6 @@ public class MMOAuctionHouseControl {
                     break;
                 case "Buy":
                     selectBuy(currentPlayer);
-                    break;
-                case "Sell":
-                    selectSell(currentPlayer);
                     break;
                 case "Payment Details":
                     paymentDetails(currentPlayer);
@@ -168,12 +163,9 @@ public class MMOAuctionHouseControl {
         buy.listItems();
     }
     
-    private void selectSell(Player currentPlayer) {
-        System.out.println("Sell selected");
-        
+    public SellControl retrieveSell() {
         SellControl sell = new SellControl(currentPlayer);
-        sell.listItems();
-        
+        return sell;
     }
     
     /* @author Chris & Neil

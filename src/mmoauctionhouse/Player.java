@@ -59,6 +59,18 @@ public abstract class Player {
         return tier;
     }
     
+    public int getBronzeCoins() {
+        return wallet.getBronzeCoins();
+    }
+
+    public int getSilverCoins() {
+        return wallet.getSilverCoins();
+    }
+
+    public int getGoldCoins() {
+        return wallet.getGoldCoins();
+    }
+    
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
@@ -95,6 +107,18 @@ public abstract class Player {
     public void addItem(Item item)
     {
         inventory.addItem(item);
+    }
+    
+    public String[] getItemNames(String tier, String searchFilter) {
+        return inventory.getItemNames(tier, searchFilter);
+    }
+    
+    public String findItemInformation(String itemName) {
+        return inventory.findItemInformation(itemName);
+    }
+    
+    public String[] getAvailableItemTiers() {
+        return inventory.getAvailableItemTiers();
     }
     
     public abstract double getRisk();

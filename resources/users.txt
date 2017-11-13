@@ -1,4 +1,1 @@
-bronze123;pass123
-bronze124;pass124
-worm00111;pass123
-jj123;pass123
+worm;pass123

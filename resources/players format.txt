@@ -1,6 +1,6 @@
 username;tier;tax;startingMoney;numberOfItems
-Armor/Weapon;type;name;tier;baseTax;effect1;effect2;...effectN
-Armor/Weapon;type;name;tier;baseTax;effect1;effect2;...effectN
+type;name;tier;baseTax;effect1;effect2;...effectN
+type;name;tier;baseTax;effect1;effect2;...effectN
 
 Make sure noone has the username of any types e.g. "Chest" or "Dagger"
 

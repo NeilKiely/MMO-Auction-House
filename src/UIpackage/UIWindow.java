@@ -12,14 +12,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import mmoauctionhouse.MMOAuctionHouseControl;
+import mmoauctionhouse.SellControl;
 
 /**
  *
@@ -35,12 +44,20 @@ class WindowEventHandler extends WindowAdapter {
 
 public class UIWindow extends JFrame implements ActionListener {
     private JFrame frame;
-    private JButton registerB, loginB, registerConfirmB, loginConfirmB,auctionHouseB,adventureB,paymentDetailsB,buyCoinsB,quitB,goAdventureB,backB,buyB,sellB;
-    private JPanel registerP,loginP,parentP,authenticationP,menuP,adventureP,auctionHouseP;
+    private JButton registerB,loginB,registerConfirmB,loginConfirmB,auctionHouseB,adventureB,paymentDetailsB,buyCoinsB,quitB,goAdventureB,backB,buyB,sellB,sellSearchB;
+    private JButton sellConfirmB;
+    private JPanel registerP,loginP,parentP,authenticationP,menuP,adventureP,auctionHouseP,sellP,sellBronzeP,sellSilverP,sellGoldP;
+    private JLabel sellItemInfo;
+    private JLabel[] sellItemWallet;
     private MMOAuctionHouseControl control;
-    private JTextField regUsername, regPassword, regFName, regLName, logUsername, logPassword;
+    private JTextField regUsername, regPassword, regFName, regLName, logUsername, logPassword, sellSearch, sellPriceGold, sellPriceSilver, sellPriceBronze;
     private JComboBox<String> dropDown;
-    
+    private String[] sellTiers;
+    private JTabbedPane sellTabs;
+    private JList[] sellItemList;
+    private DefaultListModel[] sellItemListModel;
+    private int sellItemListLastSelection;
+    private SellControl sell;
     
     
     final static String AUTHENTICATION = "AUTHENTICATION";
@@ -59,7 +76,7 @@ public class UIWindow extends JFrame implements ActionListener {
        
        
        
-       int windowWidth = 400;
+        int windowWidth = 800;
         int windowHeight = 400;
         
         frame = new JFrame();
@@ -126,6 +143,7 @@ public class UIWindow extends JFrame implements ActionListener {
         menuP =new JPanel(new GridLayout(5,1)); 
         parentP.add(menuP,MENU);
         
+        // Main menu page fields
         auctionHouseB = new JButton("Auction house"); 
         auctionHouseB.setActionCommand(AUCTIONHOUSE);
         auctionHouseB.addActionListener(this);
@@ -174,21 +192,131 @@ public class UIWindow extends JFrame implements ActionListener {
         buyB.addActionListener(this);
         auctionHouseP.add(buyB);
         
-        sellB = new JButton("Buy item");
+        sellB = new JButton("Sell item");
         sellB.setActionCommand(SELLPANEL);
         sellB.addActionListener(this);
         auctionHouseP.add(sellB);
         
-        int frameWidth = 200;
-        int frameHeight = 100;
+        // Initialize sell panel
+        sellP = new JPanel(new GridLayout(2,2));
+        parentP.add(sellP, SELLPANEL);
+        
+        // Sell panel page fields
+        JPanel sellPSearchP = new JPanel(new GridLayout(1,2));
+        sellSearch = new JTextField();
+        sellPSearchP.add(sellSearch);
+        sellSearchB = new JButton("Search");
+        sellSearchB.addActionListener(this);
+        sellP.add(sellPSearchP);
+        sellPSearchP.add(sellSearchB);
+        sellItemInfo = new JLabel("Item info");
+        sellP.add(sellItemInfo);
+        sellTabs = new JTabbedPane();
+        sellTabs.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                displaySellItems("");
+            }
+        });
+        sellP.add(sellTabs);
+        JPanel itemSellDetails = new JPanel(new GridLayout(6,4));
+        itemSellDetails.add(new JPanel());
+        itemSellDetails.add(new JLabel("Gold"));
+        itemSellDetails.add(new JLabel("Silver"));
+        itemSellDetails.add(new JLabel("Bronze"));
+        itemSellDetails.add(new JLabel("Wallet:"));
+        sellItemWallet = new JLabel[3];
+        sellItemWallet[0] = new JLabel("0");
+        sellItemWallet[1] = new JLabel("0");
+        sellItemWallet[2] = new JLabel("0");
+        itemSellDetails.add(sellItemWallet[0]);
+        itemSellDetails.add(sellItemWallet[1]);
+        itemSellDetails.add(sellItemWallet[2]);
+        itemSellDetails.add(new JLabel("Sell for:"));
+        sellPriceGold = new JTextField();
+        sellPriceSilver = new JTextField();
+        sellPriceBronze = new JTextField();
+        itemSellDetails.add(sellPriceGold);
+        itemSellDetails.add(sellPriceSilver);
+        itemSellDetails.add(sellPriceBronze);
+        itemSellDetails.add(new JLabel("Taxes:"));
+        itemSellDetails.add(new JLabel("0"));
+        itemSellDetails.add(new JLabel("0"));
+        itemSellDetails.add(new JLabel("0"));
+        itemSellDetails.add(new JLabel("Total:"));
+        itemSellDetails.add(new JLabel("0"));
+        itemSellDetails.add(new JLabel("0"));
+        itemSellDetails.add(new JLabel("0"));
+        sellConfirmB = new JButton("Sell");
+        itemSellDetails.add(sellConfirmB);
+        itemSellDetails.add(new JPanel());
+        itemSellDetails.add(new JPanel());
+        itemSellDetails.add(new JPanel());
+        sellP.add(itemSellDetails);
+        
+        
         frame.add(parentP);
-        //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        //frame.setBounds((int) screenSize.getWidth() - frameWidth, 0, frameWidth, frameHeight);
         frame.setVisible(true);
         
     }
+    
+    private void displaySellItems(String searchFilter) {
+        int tabIndex = sellTabs.getSelectedIndex();
+        String selectedTier = sellTiers[tabIndex];
+        String[] items = sell.getItemNames(selectedTier, searchFilter);
+        sellItemListModel[tabIndex].clear();
+        
+        for (int i = 0; i < items.length; i++) {
+            sellItemListModel[tabIndex].addElement(items[i]);
+        }
+    }
+    
+    private void createSellTabs() {
+        sellTabs.removeAll();
+        sell = control.retrieveSell(); 
+        sellTiers = sell.getAvailableItemTiers();
+        
+        sellItemListModel = new DefaultListModel[sellTiers.length];
+        sellItemList = new JList[sellTiers.length];
+        JScrollPane[] scrollPanes = new JScrollPane[sellTiers.length];
+        for (int i = 0; i < sellTiers.length; i++) {
+            sellItemListModel[i] = new DefaultListModel();
+            sellItemList[i] = new JList(sellItemListModel[i]);
+            
+            // List selection even
+            sellItemList[i].addListSelectionListener(new ListSelectionListener() {
+                public void valueChanged(ListSelectionEvent e) {
+                    if (!e.getValueIsAdjusting()) {
+                        String itemInfo;
+                        if (e.getFirstIndex() == sellItemListLastSelection) {
+                            sellItemListLastSelection = e.getLastIndex();
+                            itemInfo = sell.findItemInformation((String) sellItemListModel[sellTabs.getSelectedIndex()].getElementAt(e.getLastIndex()));
+                        } else {
+                            sellItemListLastSelection = e.getFirstIndex();
+                            itemInfo = sell.findItemInformation((String) sellItemListModel[sellTabs.getSelectedIndex()].getElementAt(e.getFirstIndex()));
+                        }
+                        itemInfo = "<html>" + itemInfo + "</html>";
+                        itemInfo = itemInfo.replaceAll(";", "<br>");
+                        sellItemInfo.setText(itemInfo);
+                    }
+                }
+            });
+            
+            scrollPanes[i] = new JScrollPane(sellItemList[i]);
+        }
+        
+        for (int i = 0; i < sellTiers.length; i++) {
+            sellTabs.addTab(sellTiers[i], scrollPanes[i]);
+        }
+    }
+    
+    private void updateSellWallet() {
+        sellItemWallet[0].setText(Integer.toString(sell.getGoldCoins()));
+        sellItemWallet[1].setText(Integer.toString(sell.getSilverCoins()));
+        sellItemWallet[2].setText(Integer.toString(sell.getBronzeCoins()));
+    }
 
     public void actionPerformed(ActionEvent e) {
+        
         JButton source = (JButton) e.getSource();
         CardLayout c1 = (CardLayout)(parentP.getLayout());
         if(source.equals(registerB)){
@@ -216,7 +344,6 @@ public class UIWindow extends JFrame implements ActionListener {
             }
         }
         else if(source.equals(adventureB)) {
-            //control.Menu(0);
             c1.show(parentP, e.getActionCommand());
         
         }
@@ -230,6 +357,14 @@ public class UIWindow extends JFrame implements ActionListener {
         }
         else if(source.equals(auctionHouseB)){
             c1.show(parentP, e.getActionCommand());
+        }
+        else if(source.equals(sellB)) {
+            createSellTabs();
+            updateSellWallet();
+            c1.show(parentP, e.getActionCommand());
+        }
+        else if (source.equals(sellSearchB)) {
+            displaySellItems(sellSearch.getText());
         }
     }
     
