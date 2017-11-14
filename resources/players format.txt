@@ -1,0 +1,15 @@
+username;tier;tax;startingMoney;numberOfItems
+type;name;tier;baseTax;effect1;effect2;...effectN
+type;name;tier;baseTax;effect1;effect2;...effectN
+
+Make sure noone has the username of any types e.g. "Chest" or "Dagger"
+
+Armor types:
+Chest, Head, Gloves, Shoes
+Weapon types:
+Dagger, Sword, Club, Hammer
+
+Armor decorators:
+Dexterity, Reflect, Regeneration, Sneak, Vitality
+Weapon decorators:
+CritChance, CritDamage, LifeSteal, Poison, Slow
