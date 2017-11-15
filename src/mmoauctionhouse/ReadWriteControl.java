@@ -74,29 +74,19 @@ public class ReadWriteControl {
         IFile scFile = IFileFactory.getIFile("SCFile");
         scFile.get(usersFile.getAbsolutePath());
         String [][] userDetails = scFile.read();
-        for (int i = 0; i < userDetails.length; i++)
+        if (userDetails != null)
         {
-            String detailsString = "";
-            for (int j = 0 ; j < userDetails[i].length; j++)
+            for (int i = 0; i < userDetails.length; i++)
             {
-                detailsString += userDetails[i][j] + scFile.getDelimiter();
+                String detailsString = "";
+                for (int j = 0 ; j < userDetails[i].length; j++)
+                {
+                    detailsString += userDetails[i][j] + scFile.getDelimiter();
+                }
+                detailsString = detailsString.substring(0, detailsString.length() - 1);
+                users.add(detailsString);
             }
-            detailsString = detailsString.substring(0, detailsString.length() - 1);
-            users.add(detailsString);
         }
-        /*
-        try {
-            Scanner in = new Scanner(usersFile);
-            
-            while (in.hasNext()) {
-                users.add(in.nextLine());
-            }
-            
-            in.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        */
         
         return users;
     }
