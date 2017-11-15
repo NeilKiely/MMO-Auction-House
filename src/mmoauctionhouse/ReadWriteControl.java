@@ -205,6 +205,28 @@ public class ReadWriteControl {
         return playerInfoArr;
     }
     public static void writeBuyToFile(InventoryToBuy inventory){
+        
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+        String filename = s + "\\ItemsOnSale.txt";
+            
+        IFile iFile = IFileFactory.getIFile("SCFile");
+        iFile.put(filename);
+        String stringForItem = "";
+        String writeOut[][] = null;
+        if (inventory.getNumOfItems() > 0)
+        {
+            writeOut = new String[inventory.getNumOfItems()][3];
+            for (int i = 0; i < writeOut.length; i++)
+            {
+                writeOut[i][0] = inventory.getItem(i).toStringToFile();
+                writeOut[i][1] = "" + inventory.getItem(i).getPrice();
+                writeOut[i][2] = inventory.getItem(i).getSeller();
+            }
+        }
+        if (writeOut != null)
+            iFile.write(writeOut);
+        /*
         try
         {
             Path currentRelativePath = Paths.get("");
@@ -231,9 +253,44 @@ public class ReadWriteControl {
         {
             System.err.println("IOException: " + ioe.getMessage());
         }
-        
+        */
     }
     public static void paySellerInFile(String seller,int price){
+        
+        File playersFile = new File("resources/playerWallet.txt");
+        String filePath = "resources/playerWallet.txt";
+        //ArrayList<ArrayList<String>> tempList = new ArrayList<ArrayList<String>>();
+        
+        String [][] tempListArray = null;
+        IFile ifile = IFileFactory.getIFile("SCFile");
+        ifile.get(filePath);
+        tempListArray = ifile.read();
+        
+        for (int i = 0; i < tempListArray.length; i++)
+        {
+            for (int j = 0; j < tempListArray[i].length; j++)
+            {
+                if (tempListArray[i][0].matches(seller))
+                {
+                    String temp = (price + Double.parseDouble(tempListArray[i][1])) + "";
+                    tempListArray[i][1] = temp;
+                }
+            }
+        }
+        
+        String writeString [][] = new String[tempListArray.length][2];
+        for (int i = 0; i < writeString.length; i++)
+        {
+            for (int j = 0; j < writeString[i].length; j++)
+            {
+                writeString[i][0] = tempListArray[i][0];
+                writeString[i][1] = tempListArray[i][1];
+            }
+        }
+        ifile.put("resources/playerWallet.txt");
+        ifile.write(writeString);
+        
+        /*
         File playersFile = new File("resources/playerWallet.txt");
         ArrayList<ArrayList<String>> tempList = new ArrayList<ArrayList<String>>();
         
@@ -286,6 +343,8 @@ public class ReadWriteControl {
             {
                 System.err.println("IOException: " + ioe.getMessage());
             }
+           
         }
+        */
     }
 }
