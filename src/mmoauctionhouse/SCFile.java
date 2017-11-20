@@ -70,7 +70,7 @@ public class SCFile implements IFile {
     public void write(String[][] write) {
         FileWriter fw = null;
         try {
-            fw = new FileWriter(writeFileName);
+            fw = new FileWriter(writeFileName, true);
             int largestColumn = 0;
             for (int i = 0; i < write.length;i++)
             {

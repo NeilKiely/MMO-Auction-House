@@ -8,17 +8,19 @@ package mmoauctionhouse.creditcardpackage;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Pattern;
+import mmoauctionhouse.Observer;
 
 /**
  *
  * @author Neil & Chris
  */
-public class CreditCard {
+public class CreditCard implements Observer {
     private String firstName;
     private String lastName;
     private String cardNo;
     private String expDate;
     private String csvNo;
+    private boolean canUse = true;
     
     public CreditCard(String firstName, String lastName, String cardNo, String expDate, String csvNo)
     {
@@ -153,6 +155,14 @@ public class CreditCard {
                     }
     System.out.println("Incorrect Date format");
     return false;
+    }
+
+    @Override
+    public void update(String string) {
+        if (cardNo.equals(string))
+        {
+            canUse = false;
+        }
     }
 
 

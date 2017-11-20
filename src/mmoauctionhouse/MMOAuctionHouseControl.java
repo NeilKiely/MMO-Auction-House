@@ -1,6 +1,7 @@
 package mmoauctionhouse;
 
 import UIpackage.UIWindow;
+import java.util.ArrayList;
 import mmoauctionhouse.creditcardpackage.CreditCard;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
@@ -9,13 +10,14 @@ import javax.swing.JOptionPane;
  *
  * @author Vilius
  */
-public class MMOAuctionHouseControl {
+public class MMOAuctionHouseControl implements Subject {
     /**
     * Main control class
     * @author Vilius
     */
     private UIWindow ui;
     private  Player currentPlayer;
+    private ArrayList<Observer> observers = new ArrayList<Observer>();
     public MMOAuctionHouseControl() {
         ui = new UIWindow(this);
     }
@@ -384,6 +386,24 @@ public class MMOAuctionHouseControl {
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void addObservser(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void detachObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObserver(String string) {
+        for (int i = 0; i < observers.size(); i++)
+        {
+            observers.get(i).update(string);
         }
     }
 }

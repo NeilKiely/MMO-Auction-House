@@ -5,9 +5,13 @@
  */
 package mmoauctionhouse;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,32 +31,46 @@ public class TDFile implements IFile {
 
     @Override
     public String [][] read() {
-        Scanner in = new Scanner(readFileName);
+        File newFile = new File(readFileName);
+        Scanner in = null;
+        try {
+            in = new Scanner(newFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TDFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //System.out.println(readFileName);
         String [][] returnString;
         int numRows = 0;
         int numColumns = 0;
-        while (in.nextLine() != null)
+        String line = "";
+        while (in.hasNextLine())
         {
+            line = in.nextLine();
             numRows++;
             //finding largest number of columns and using for init
-            int thisNumColumns = in.toString().split(delimiter).length;
+            int thisNumColumns = line.split(delimiter).length;
             if (thisNumColumns > numColumns)
                 numColumns = thisNumColumns;
         }
-        in = new Scanner(readFileName);
+        try {
+            in = new Scanner(newFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TDFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
         returnString = new String[numRows][numColumns];
         for (int i = 0; i < numRows;i++ )
         {
-            returnString[i] = in.toString().split(delimiter);
+            line = in.nextLine();
+            returnString[i] = line.split(delimiter);
         }
-        return null;
+        return returnString;
     }
 
     @Override
     public void write(String[][] write) {
         FileWriter fw = null;
         try {
-            fw = new FileWriter(writeFileName);
+            fw = new FileWriter(writeFileName, true);
             int largestColumn = 0;
             for (int i = 0; i < write.length;i++)
             {

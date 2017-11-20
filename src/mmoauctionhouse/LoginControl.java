@@ -18,9 +18,10 @@ public class LoginControl {
             System.out.println("Invalid login details");
         } else {
             System.out.println("Successfully logged in"); 
+            return users.get(userIndex);
         }
         
-        return users.get(userIndex);
+        return null;
     }
     
     public static boolean registerAUser(String username,String password,String fName,String lName) {
