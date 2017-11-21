@@ -9,6 +9,7 @@ import itempackage.Item;
 import itempackage.ItemFactory;
 import itempackage.ItemFactoryInterface;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,7 +33,9 @@ public class BronzeAdventure implements IAdventure {
 
     @Override
     public boolean calculateRisk() {
-        double risk = 0;
+        if (checkCanPlay())
+        {
+            double risk = 0;
 		if (player != null)
 		{
 			risk = player.getRisk() * 1;
@@ -52,7 +55,7 @@ public class BronzeAdventure implements IAdventure {
 		{
 			//System.out.println("You lose!");
 			//cost to be decided -- for bronze failure 
-                        int cost = 0;
+                        int cost = 10;
                         if (player.getWallet().getBronzeCoins() - cost < 0)
                         {
                             //sets players amount of bronze coins to zero
@@ -62,6 +65,12 @@ public class BronzeAdventure implements IAdventure {
                             player.getWallet().reduceAmount(cost);
                         return false;
 		}
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Player is not appropriate tier to play.");
+        }
+        return false;
     }
 
     @Override

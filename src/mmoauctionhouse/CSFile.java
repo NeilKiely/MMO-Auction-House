@@ -36,7 +36,7 @@ public class CSFile implements IFile {
         try {
             in = new Scanner(newFile);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(CSFile.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SCFile.class.getName()).log(Level.SEVERE, null, ex);
         }
         //System.out.println(readFileName);
         String [][] returnString;
@@ -46,24 +46,31 @@ public class CSFile implements IFile {
         while (in.hasNextLine())
         {
             line = in.nextLine();
-            numRows++;
-            //finding largest number of columns and using for init
-            int thisNumColumns = line.split(delimiter).length;
-            if (thisNumColumns > numColumns)
-                numColumns = thisNumColumns;
+            if (!line.isEmpty())
+            {
+                numRows++;
+                //finding largest number of columns and using for init
+                int thisNumColumns = line.split(delimiter).length;
+                if (thisNumColumns > numColumns)
+                    numColumns = thisNumColumns;
+            }
         }
         try {
             in = new Scanner(newFile);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(CSFile.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SCFile.class.getName()).log(Level.SEVERE, null, ex);
         }
-        returnString = new String[numRows][numColumns];
-        for (int i = 0; i < numRows;i++ )
+        if (numRows != 0)
         {
-            line = in.nextLine();
-            returnString[i] = line.split(delimiter);
+            returnString = new String[numRows][numColumns];
+            for (int i = 0; i < numRows;i++ )
+            {
+                line = in.nextLine();
+                returnString[i] = line.split(delimiter);
+            }
+            return returnString;
         }
-        return returnString;
+        return null;
     }
 
     @Override

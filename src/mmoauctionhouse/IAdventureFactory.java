@@ -12,16 +12,16 @@ import java.util.HashMap;
  * @author Chris Mulcahy
  */
 public class IAdventureFactory {
-    private static HashMap<String, IFile> iAdventures = new HashMap<String, IFile>();
+    private static HashMap<String, IAdventure> iAdventures = new HashMap<String, IAdventure>();
     
-    public static void addIAdventure(String nameID, IFile iFile)
+    public static void addIAdventure(String nameID, IAdventure iAdventure)
     {
-        iAdventures.put(nameID, iFile);
+        iAdventures.put(nameID.toLowerCase(), iAdventure);
     }
     
     public static IAdventure getIAdventure(String nameID)
     {
-        IAdventure IAdventureClass = (IAdventure)iAdventures.get(nameID);
+        IAdventure IAdventureClass = (IAdventure)iAdventures.get(nameID.toLowerCase());
         return IAdventureClass;
     }
 }

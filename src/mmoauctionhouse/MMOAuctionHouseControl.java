@@ -18,9 +18,23 @@ public class MMOAuctionHouseControl implements Subject {
     private UIWindow ui;
     private  Player currentPlayer;
     private ArrayList<Observer> observers = new ArrayList<Observer>();
-    public MMOAuctionHouseControl() {
+    
+    private static MMOAuctionHouseControl control = null;
+    
+    private MMOAuctionHouseControl() {
         ui = new UIWindow(this);
     }
+    
+    public static MMOAuctionHouseControl getInstance()
+    {
+        if (control == null)
+        {
+            control = new MMOAuctionHouseControl();
+        }
+        return control;
+    }
+    
+    
     public boolean registerUser(String username,String password,String fName,String lName){
         
         boolean registerd = LoginControl.registerAUser(username,password,fName,lName);
@@ -31,7 +45,22 @@ public class MMOAuctionHouseControl implements Subject {
         LoginDetails currentLogIn = null;
         currentLogIn  =  LoginControl.loginProcess(userName,password);
         if(currentLogIn != null){
-            currentPlayer = retrieveMatchingPlayer(currentLogIn.getUsername());
+            currentPlayer = PlayerMapper.getPlayer(currentLogIn.getUsername());
+            BronzeAdventure bronze = new BronzeAdventure(currentPlayer);
+            bronze.addTierCanPlay("Bronze");
+            bronze.addTierCanPlay("Silver");
+            bronze.addTierCanPlay("Gold");
+            
+            SilverAdventure silver = new SilverAdventure(currentPlayer);
+            silver.addTierCanPlay("Silver");
+            silver.addTierCanPlay("Gold");
+            
+            GoldAdventure gold = new GoldAdventure(currentPlayer);
+            gold.addTierCanPlay("Gold");
+            
+            IAdventureFactory.addIAdventure("bronze", bronze);
+            IAdventureFactory.addIAdventure("silver", silver);
+            IAdventureFactory.addIAdventure("gold", gold);
             return true;
         }else
             return false;
@@ -58,7 +87,18 @@ public class MMOAuctionHouseControl implements Subject {
        currentPlayer = retrieveMatchingPlayer(currentLogIn.getUsername());
     }
     public void getAdventure(String tier){
-        JOptionPane.showMessageDialog(null, "tier selected" + tier);
+        IAdventure adventure = IAdventureFactory.getIAdventure(tier);
+        if (adventure.checkCanPlay())
+        {
+            String adventureResult = "Unsuccessful";
+            if (adventure.calculateRisk() == true)
+                adventureResult = "Successful";
+            JOptionPane.showMessageDialog(null, "You have completed your adventure. It was... ");
+            JOptionPane.showMessageDialog(null, adventureResult + "!");
+        }
+        else
+            JOptionPane.showMessageDialog(null, "You need to be of tier " + tier + " or higher to do this adventure!");
+        
     }
     public void Menu(int x){
         
@@ -90,23 +130,9 @@ public class MMOAuctionHouseControl implements Subject {
     
     private Player retrieveMatchingPlayer(String username) {
         Inventory inventory = retrieveInventory(username);
-        String[] playerInfo = ReadWriteControl.readPlayerInfo(username);
-        Player player;
+        //String[] playerInfo = ReadWriteControl.readPlayerInfo(username);
+        Player player = PlayerMapper.getPlayer(username);
         
-        // Depending on the player tier, create appropriate classes
-        switch (playerInfo[1]) {
-            case "Bronze":
-                player = (Player) new Bronze(playerInfo[1], Double.parseDouble(playerInfo[2]), Integer.parseInt(playerInfo[3]), inventory, username);
-                break;
-            case "Silver":
-                player = (Player) new Silver(playerInfo[1], Double.parseDouble(playerInfo[2]), Integer.parseInt(playerInfo[3]), inventory, username);
-                break;
-            case "Gold":
-                player = (Player) new Gold(playerInfo[1], Double.parseDouble(playerInfo[2]), Integer.parseInt(playerInfo[3]), inventory, username);
-                break;
-            default:
-                player = (Player) new Bronze("ERROR_USERNAME", 90.0, 0, inventory, username);
-        }
         
         System.out.println(player.toString());
         

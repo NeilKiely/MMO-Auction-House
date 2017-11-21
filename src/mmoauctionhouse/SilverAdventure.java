@@ -9,6 +9,7 @@ import itempackage.Item;
 import itempackage.ItemFactory;
 import itempackage.ItemFactoryInterface;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,7 +32,9 @@ public class SilverAdventure implements IAdventure {
 
     @Override
     public boolean calculateRisk() {
-        double risk = 0;
+        if (checkCanPlay())
+        {
+            double risk = 0;
 		if (player != null)
 		{
 			risk = player.getRisk() * 0.8;
@@ -61,6 +64,12 @@ public class SilverAdventure implements IAdventure {
                             player.getWallet().reduceAmount(0, cost);
                         return false;
 		}
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Player is not appropriate tier to play.");
+        }
+        return false;
     }
 
     @Override

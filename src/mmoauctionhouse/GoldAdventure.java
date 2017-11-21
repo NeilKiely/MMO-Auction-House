@@ -9,6 +9,7 @@ import itempackage.Item;
 import itempackage.ItemFactory;
 import itempackage.ItemFactoryInterface;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,37 +32,45 @@ public class GoldAdventure implements IAdventure {
 
     @Override
     public boolean calculateRisk() {
-        double risk = 0;
-		if (player != null)
-		{
-			risk = player.getRisk() * 0.6;
-		}
-		double result = Math.random() * 1;
+        if (checkCanPlay())
+        {
+            double risk = 0;
+                    if (player != null)
+                    {
+                            risk = player.getRisk() * 0.6;
+                    }
+                    double result = Math.random() * 1;
 
-		if (risk > result)
-		{
-			//System.out.println("You win");
-			Item testItem = createItem("Gold");
-                        player.addItem(testItem);
-                        //System.out.println(testItem);
-                        //System.out.println(player.toString());
-                        return true;
-		}
-		else
-		{
-			//System.out.println("You lose!");
-			//cost to be decided -- for gold failure 
-                        int cost = 0;
-                        if (player.getWallet().getGoldCoins() - cost < 0)
-                        {
-                            //sets players amount of gold coins to zero
-                            player.getWallet().reduceAmount(0 ,0 ,player.getWallet().getGoldCoins());
-                        }
-                        else
-                            player.getWallet().reduceAmount(0, 0, cost);
-                        return false;
-		}
-	}
+                    if (risk > result)
+                    {
+                            //System.out.println("You win");
+                            Item testItem = createItem("Gold");
+                            player.addItem(testItem);
+                            //System.out.println(testItem);
+                            //System.out.println(player.toString());
+                            return true;
+                    }
+                    else
+                    {
+                            //System.out.println("You lose!");
+                            //cost to be decided -- for gold failure 
+                            int cost = 0;
+                            if (player.getWallet().getGoldCoins() - cost < 0)
+                            {
+                                //sets players amount of gold coins to zero
+                                player.getWallet().reduceAmount(0 ,0 ,player.getWallet().getGoldCoins());
+                            }
+                            else
+                                player.getWallet().reduceAmount(0, 0, cost);
+                            return false;
+                    }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Player is not appropriate tier to play.");
+        }
+        return false;
+    }
 
 
     @Override

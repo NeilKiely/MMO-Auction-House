@@ -9,6 +9,14 @@ public class ReadWriteControl {
     /**
      * @author Vilius
      */
+    
+    private static IFile ifile = null;
+    
+    public static void setIFile(IFile ifile)
+    {
+        ReadWriteControl.ifile = ifile;
+    }
+    
     public static void addRegisteredUser(String username, String password) {
         //try
         //{
@@ -35,24 +43,23 @@ public class ReadWriteControl {
             
             fw.close();
             */
-            IFile scFile = IFileFactory.getIFile("SCFile");
-            scFile.put(filename);
+            ifile.put(filename);
             
             //writing to users.txt
             String [][] userDetails = new String[1][2];
             userDetails[0][0] = username;
             userDetails[0][1] = password;
-            scFile.write(userDetails);
+            ifile.write(userDetails);
             
             s = currentRelativePath.toAbsolutePath().toString();
             filename = s + "\\resources\\players.txt";
             
             //writing to players.txt
-            scFile.put(filename);
+            ifile.put(filename);
             String [][] playerDetails = new String[1][5];
             playerDetails[0][0] = username; playerDetails[0][1] = "Bronze"; playerDetails[0][2] = "20";
             playerDetails[0][3] = "0"; playerDetails[0][4] = "0";
-            scFile.write(playerDetails);
+            ifile.write(playerDetails);
         //}
         /*
         catch(IOException ioe)
@@ -71,9 +78,8 @@ public class ReadWriteControl {
         
         File usersFile = new File("resources/users.txt");
         
-        IFile scFile = IFileFactory.getIFile("SCFile");
-        scFile.get(usersFile.getAbsolutePath());
-        String [][] userDetails = scFile.read();
+        ifile.get(usersFile.getAbsolutePath());
+        String [][] userDetails = ifile.read();
         if (userDetails != null)
         {
             for (int i = 0; i < userDetails.length; i++)
@@ -81,7 +87,7 @@ public class ReadWriteControl {
                 String detailsString = "";
                 for (int j = 0 ; j < userDetails[i].length; j++)
                 {
-                    detailsString += userDetails[i][j] + scFile.getDelimiter();
+                    detailsString += userDetails[i][j] + ifile.getDelimiter();
                 }
                 detailsString = detailsString.substring(0, detailsString.length() - 1);
                 users.add(detailsString);
@@ -96,9 +102,8 @@ public class ReadWriteControl {
         String[] itemArr = new String[0];
         boolean foundPlayer = false;
         
-        IFile iFile = IFileFactory.getIFile("SCFile");
-        iFile.get(playersFile.getAbsolutePath());
-        String [][] playerInventory = iFile.read();
+        ifile.get(playersFile.getAbsolutePath());
+        String [][] playerInventory = ifile.read();
         //String [] itemArr = null;
         
         for (int i = 0; i < playerInventory.length && !foundPlayer; i++)
@@ -115,7 +120,7 @@ public class ReadWriteControl {
                     String itemDetails = "";
                     for (int k = 0; k < playerInventory[i+j+1].length; k++)
                     {
-                        itemDetails += playerInventory[i+j+1][k] + iFile.getDelimiter(); 
+                        itemDetails += playerInventory[i+j+1][k] + ifile.getDelimiter(); 
                     }
                     itemDetails = itemDetails.substring(0, itemDetails.length() - 1);
                     itemArr[j] = itemDetails;
@@ -157,9 +162,8 @@ public class ReadWriteControl {
         String[] playerInfoArr = new String[0];
         boolean foundPlayer = false;
         
-        IFile iFile = IFileFactory.getIFile("SCFile");
-        iFile.get(playersFile.getAbsolutePath());
-        String [][] playerDetails = iFile.read();
+        ifile.get(playersFile.getAbsolutePath());
+        String [][] playerDetails = ifile.read();
         
         for (int i =0;  i< playerDetails.length; i++)
         {
@@ -200,8 +204,7 @@ public class ReadWriteControl {
         String s = currentRelativePath.toAbsolutePath().toString();
         String filename = s + "\\ItemsOnSale.txt";
             
-        IFile iFile = IFileFactory.getIFile("SCFile");
-        iFile.put(filename);
+        ifile.put(filename);
         String stringForItem = "";
         String writeOut[][] = null;
         if (inventory.getNumOfItems() > 0)
@@ -215,7 +218,7 @@ public class ReadWriteControl {
             }
         }
         if (writeOut != null)
-            iFile.write(writeOut);
+            ifile.write(writeOut);
         /*
         try
         {
@@ -252,7 +255,6 @@ public class ReadWriteControl {
         //ArrayList<ArrayList<String>> tempList = new ArrayList<ArrayList<String>>();
         
         String [][] tempListArray = null;
-        IFile ifile = IFileFactory.getIFile("SCFile");
         ifile.get(filePath);
         tempListArray = ifile.read();
         
