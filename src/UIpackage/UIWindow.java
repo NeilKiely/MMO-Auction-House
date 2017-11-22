@@ -47,6 +47,9 @@ public class UIWindow extends JFrame implements ActionListener {
     private JButton registerB,loginB,registerConfirmB,loginConfirmB,auctionHouseB,adventureB,paymentDetailsB,buyCoinsB,quitB,goAdventureB,backB,buyB,sellB,sellSearchB;
     private JButton sellConfirmB;
     private JPanel registerP,loginP,parentP,authenticationP,menuP,adventureP,auctionHouseP,sellP,sellBronzeP,sellSilverP,sellGoldP;
+    private JPanel buyCoinsP, paymentDetailsP;
+    private JButton showCB, addCB, removeCB, changePrimaryCardB, CardBack;
+    private JButton buyBronzeCoinsB, buySilverCoinsB, buyGoldCoinsB, CoinsBack;
     private JLabel sellItemInfo;
     private JLabel[] sellItemWallet;
     private MMOAuctionHouseControl control;
@@ -196,6 +199,41 @@ public class UIWindow extends JFrame implements ActionListener {
         sellB.setActionCommand(SELLPANEL);
         sellB.addActionListener(this);
         auctionHouseP.add(sellB);
+        
+        //PaymentDetailsPanel
+        paymentDetailsP = new JPanel(new GridLayout(5, 1));
+        parentP.add(paymentDetailsP, PAYMENTDETAILS);
+        showCB = new JButton("Show Credit Cards");
+        showCB.addActionListener(this);
+        addCB = new JButton("Add Credit Card");
+        addCB.addActionListener(this);
+        removeCB = new JButton("Remove Credit Card");
+        removeCB.addActionListener(this);
+        changePrimaryCardB = new JButton("Change Primary Card");
+        changePrimaryCardB.addActionListener(this);
+        CardBack = new JButton("Back");
+        CardBack.addActionListener(this);
+        CardBack.setActionCommand(MENU);
+        paymentDetailsP.add(showCB);
+        paymentDetailsP.add(addCB);
+        paymentDetailsP.add(removeCB);
+        paymentDetailsP.add(changePrimaryCardB);
+        paymentDetailsP.add(CardBack);
+        
+        //BuyCoinsPanel
+        buyCoinsP = new JPanel(new GridLayout(4,1));
+        parentP.add(buyCoinsP, BUYCOINS);
+        buyBronzeCoinsB = new JButton("Buy Bronze Coins");
+        buySilverCoinsB = new JButton("Buy Silver Coins");
+        buyGoldCoinsB = new JButton("Buy Gold Coins");
+        CoinsBack = new JButton("Back");
+        CoinsBack.addActionListener(this);
+        CoinsBack.setActionCommand(MENU);
+        buyCoinsP.add(buyBronzeCoinsB);
+        buyCoinsP.add(buySilverCoinsB);
+        buyCoinsP.add(buyGoldCoinsB);
+        buyCoinsP.add(CoinsBack);
+        
         
         // Initialize sell panel
         sellP = new JPanel(new GridLayout(2,2));
@@ -365,6 +403,18 @@ public class UIWindow extends JFrame implements ActionListener {
         }
         else if (source.equals(sellSearchB)) {
             displaySellItems(sellSearch.getText());
+        }
+        else if(source.equals(paymentDetailsB)){
+            c1.show(parentP, e.getActionCommand());
+        }
+        else if(source.equals(CardBack)){
+            c1.show(parentP, e.getActionCommand());
+        }
+        else if(source.equals(CoinsBack)){
+            c1.show(parentP, e.getActionCommand());
+        }
+        else if(source.equals(buyCoinsB)){
+            c1.show(parentP, e.getActionCommand());
         }
     }
     

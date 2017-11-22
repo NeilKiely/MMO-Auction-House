@@ -65,6 +65,12 @@ public class MMOAuctionHouseControl implements Subject {
         }else
             return false;
     }
+    
+    public void banCardNo(String cardNo)
+    {
+        notifyObserver(cardNo);
+    }
+    
     public void getChoiceLR(){
         boolean keepLooping = true;
          LoginDetails currentLogIn = null;
