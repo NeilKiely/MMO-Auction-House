@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.util.Objects;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,11 +25,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.Document;
+import javax.swing.text.JTextComponent;
 import mmoauctionhouse.MMOAuctionHouseControl;
 import mmoauctionhouse.SellControl;
 
@@ -52,13 +59,14 @@ public class UIWindow extends JFrame implements ActionListener {
     private JButton showCB, addCB, removeCB, changePrimaryCardB, CardBack;
     private JButton buyBronzeCoinsB, buySilverCoinsB, buyGoldCoinsB, CoinsBack;
     private JButton cardConfirmB, cardBackB;
-    private JLabel sellItemInfo;
+    private JLabel sellItemInfo, sellGoldTaxes, sellSilverTaxes, sellBronzeTaxes, sellGoldTotal, sellSilverTotal, sellBronzeTotal;
     private JLabel[] sellItemWallet;
     private MMOAuctionHouseControl control;
     private JTextField regUsername, regPassword, regFName, regLName, logUsername, logPassword, sellSearch, sellPriceGold, sellPriceSilver, sellPriceBronze;
     private JTextField cardFirstName, cardLastName, cardNo, cardDate, cardCSV;
     private JComboBox<String> dropDown;
     private String[] sellTiers;
+    private String selectedSellItem;
     private JTabbedPane sellTabs;
     private JList[] sellItemList;
     private DefaultListModel[] sellItemListModel;
@@ -203,6 +211,65 @@ public class UIWindow extends JFrame implements ActionListener {
         sellB.setActionCommand(SELLPANEL);
         sellB.addActionListener(this);
         auctionHouseP.add(sellB);
+
+
+        // Add the functionality for changing text field events
+        ChangeListener changeListner = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                System.out.println("Changing state");
+                JTextField source = (JTextField) e.getSource();
+                
+                // Sell text fields
+                if (source.equals(sellPriceGold) || source.equals(sellPriceSilver) || source.equals(sellPriceBronze)) {
+                    String goldString = sellPriceGold.getText();
+                    String silverString = sellPriceSilver.getText();
+                    String bronzeString = sellPriceBronze.getText();
+                    int totalPrice = 0;
+                    double itemTax;
+                    
+                    if (selectedSellItem != null && !selectedSellItem.equals("")) {
+                        itemTax = sell.getItemTax(selectedSellItem);
+                        System.out.println("itemTax = " + itemTax);
+                    } else {
+                        itemTax = 0;
+                    }
+                    
+                    if (goldString.matches("\\d+")) {
+                        int goldPrice = Integer.parseInt(goldString);
+                        double goldTax = goldPrice * itemTax;
+                        totalPrice += (goldPrice * 10000);
+                        
+                        sellGoldTaxes.setText(Double.toString(goldTax));
+                        sellGoldTotal.setText(Double.toString(goldPrice + goldTax));
+                    } else {
+                        sellGoldTaxes.setText("0");
+                    }
+                    
+                    if (silverString.matches("\\d+")) {
+                        int silverPrice = Integer.parseInt(silverString);
+                        double silverTax = silverPrice * itemTax;
+                        totalPrice += (silverPrice * 100);
+                        
+                        sellSilverTaxes.setText(Double.toString(silverTax));
+                        sellSilverTotal.setText(Double.toString(silverPrice + silverTax));
+                    } else {
+                        sellSilverTaxes.setText("0");
+                    }
+                    
+                    if (bronzeString.matches("\\d+")) {
+                        int bronzePrice = Integer.parseInt(bronzeString);
+                        double bronzeTax = bronzePrice * itemTax;
+                        totalPrice += (bronzePrice);
+                        
+                        sellBronzeTaxes.setText(Double.toString(bronzePrice * itemTax));
+                        sellBronzeTotal.setText(Double.toString(bronzePrice + bronzeTax));
+                    } else {
+                        sellBronzeTaxes.setText("0");
+                    }
+                }
+            }
+        };
         
         //PaymentDetailsPanel
         paymentDetailsP = new JPanel(new GridLayout(5, 1));
@@ -307,17 +374,26 @@ public class UIWindow extends JFrame implements ActionListener {
         sellPriceGold = new JTextField();
         sellPriceSilver = new JTextField();
         sellPriceBronze = new JTextField();
+        addChangeListener(sellPriceGold, changeListner);
+        addChangeListener(sellPriceSilver, changeListner);
+        addChangeListener(sellPriceBronze, changeListner);
         itemSellDetails.add(sellPriceGold);
         itemSellDetails.add(sellPriceSilver);
         itemSellDetails.add(sellPriceBronze);
         itemSellDetails.add(new JLabel("Taxes:"));
-        itemSellDetails.add(new JLabel("0"));
-        itemSellDetails.add(new JLabel("0"));
-        itemSellDetails.add(new JLabel("0"));
+        sellGoldTaxes = new JLabel("0");
+        sellSilverTaxes = new JLabel("0");
+        sellBronzeTaxes = new JLabel("0");
+        itemSellDetails.add(sellGoldTaxes);
+        itemSellDetails.add(sellSilverTaxes);
+        itemSellDetails.add(sellBronzeTaxes);
+        sellGoldTotal = new JLabel("0");
+        sellSilverTotal = new JLabel("0");
+        sellBronzeTotal = new JLabel("0");
         itemSellDetails.add(new JLabel("Total:"));
-        itemSellDetails.add(new JLabel("0"));
-        itemSellDetails.add(new JLabel("0"));
-        itemSellDetails.add(new JLabel("0"));
+        itemSellDetails.add(sellGoldTotal);
+        itemSellDetails.add(sellSilverTotal);
+        itemSellDetails.add(sellBronzeTotal);
         sellConfirmB = new JButton("Sell");
         itemSellDetails.add(sellConfirmB);
         itemSellDetails.add(new JPanel());
@@ -361,11 +437,12 @@ public class UIWindow extends JFrame implements ActionListener {
                         String itemInfo;
                         if (e.getFirstIndex() == sellItemListLastSelection) {
                             sellItemListLastSelection = e.getLastIndex();
-                            itemInfo = sell.findItemInformation((String) sellItemListModel[sellTabs.getSelectedIndex()].getElementAt(e.getLastIndex()));
+                            selectedSellItem = (String) sellItemListModel[sellTabs.getSelectedIndex()].getElementAt(e.getLastIndex());
                         } else {
                             sellItemListLastSelection = e.getFirstIndex();
-                            itemInfo = sell.findItemInformation((String) sellItemListModel[sellTabs.getSelectedIndex()].getElementAt(e.getFirstIndex()));
+                            selectedSellItem = (String) sellItemListModel[sellTabs.getSelectedIndex()].getElementAt(e.getFirstIndex());
                         }
+                        itemInfo = sell.findItemInformation(selectedSellItem);
                         itemInfo = "<html>" + itemInfo + "</html>";
                         itemInfo = itemInfo.replaceAll(";", "<br>");
                         sellItemInfo.setText(itemInfo);
@@ -385,6 +462,44 @@ public class UIWindow extends JFrame implements ActionListener {
         sellItemWallet[0].setText(Integer.toString(sell.getGoldCoins()));
         sellItemWallet[1].setText(Integer.toString(sell.getSilverCoins()));
         sellItemWallet[2].setText(Integer.toString(sell.getBronzeCoins()));
+    }
+	
+	public void addChangeListener(JTextComponent text, ChangeListener changeListener) {
+        Objects.requireNonNull(text);
+        Objects.requireNonNull(changeListener);
+        DocumentListener dl = new DocumentListener() {
+            private int lastChange = 0, lastNotifiedChange = 0;
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                changedUpdate(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                changedUpdate(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                lastChange++;
+                SwingUtilities.invokeLater(() -> {
+                    if (lastNotifiedChange != lastChange) {
+                        lastNotifiedChange = lastChange;
+                        changeListener.stateChanged(new ChangeEvent(text));
+                    }
+                });
+            }
+        };
+        text.addPropertyChangeListener("document", (PropertyChangeEvent e) -> {
+            Document d1 = (Document)e.getOldValue();
+            Document d2 = (Document)e.getNewValue();
+            if (d1 != null) d1.removeDocumentListener(dl);
+            if (d2 != null) d2.addDocumentListener(dl);
+            dl.changedUpdate(null);
+        });
+        Document d = text.getDocument();
+        if (d != null) d.addDocumentListener(dl);
     }
 
     public void actionPerformed(ActionEvent e) {

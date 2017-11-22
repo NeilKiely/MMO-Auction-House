@@ -65,6 +65,10 @@ public class SellControl {
         return currentPlayer.findItemInformation(itemName);
     }
     
+    public double getItemTax(String itemName) {
+        return currentPlayer.getItemTax(itemName);
+    }
+    
     public int getBronzeCoins() {
         return currentPlayer.getBronzeCoins();
     }

@@ -40,6 +40,11 @@ public class Inventory {
         return result;
     }
     
+    public double getItemTax(String itemName) {
+        double tax = getItem(findIndexOfItem(itemName)).getTax();
+        return tax;
+    }
+    
     public int findIndexOfItem(String itemName) {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getName().equals(itemName)) {

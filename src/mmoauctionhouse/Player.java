@@ -121,6 +121,10 @@ public abstract class Player {
         return inventory.getAvailableItemTiers();
     }
     
+    public double getItemTax(String itemName) {
+        return inventory.getItemTax(itemName);
+    }
+    
     public abstract double getRisk();
     public Inventory getInventory(){
         return this.inventory ;
