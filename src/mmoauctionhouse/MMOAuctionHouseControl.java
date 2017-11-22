@@ -4,6 +4,7 @@ import UIpackage.UIWindow;
 import java.util.ArrayList;
 import mmoauctionhouse.creditcardpackage.CreditCard;
 import java.util.Scanner;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -213,13 +214,13 @@ public class MMOAuctionHouseControl implements Subject {
             
             switch (selectedMenuOption) {
                 case "Show Credit Cards":
-                    currentPlayer.displayCreditCards();
+                    //currentPlayer.displayCreditCards();
                     break;
                  case "Add Credit Card (Max. 5)":
-                     AddCreditCard(currentPlayer);
+                     //AddCreditCard(currentPlayer);
                     break;
                  case "Remove Credit Card":
-                     RemoveCreditCard(currentPlayer);
+                    // RemoveCreditCard(currentPlayer);
                     break;
                  case "Change Primary Card":
                      changePrimaryPaymentCard(currentPlayer);
@@ -235,53 +236,115 @@ public class MMOAuctionHouseControl implements Subject {
 	
     }
     
+    
+    public void showCreditCards()
+    {
+        String [] getCreditCards = currentPlayer.getCreditCardString();
+        if (getCreditCards != null)
+        {
+            JOptionPane.showMessageDialog(null, new JList(getCreditCards));
+        }
+        else
+            JOptionPane.showMessageDialog(null, "There are no cards to display.");
+    }
+    
+    public void addCreditCard()
+    {
+        JOptionPane.showMessageDialog(null, "Adding Credit Card");
+    }
+    
+    public void buyBronzeCoins()
+    {
+        JOptionPane.showMessageDialog(null, "Buying Bronze Coins");
+    }
+    
+    public void buySilverCoins()
+    {
+        JOptionPane.showMessageDialog(null, "Buying Silver Coins");
+    }
+    
+    public void buyGoldCoins()
+    {
+        JOptionPane.showMessageDialog(null, "Buying Gold Coins");
+    }
+    
+    
+    
     /* @author Chris & Neil
     */
-    private void AddCreditCard(Player currentPlayer)
+    public boolean checkCreditCard(String firstName,String lastName,String cardNo,String date,String csvNo)
     {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Please enter your first name: ");
-        String firstName = in.nextLine();
-        System.out.println("Please enter your last name: ");
-        String lastName = in.nextLine();
-        
         boolean cardCheck = false;
-        String cardNo = null;
         boolean csvCheck = false;
-        String expDate = null;
         boolean dateCheck = false;
-        String csvNo = null;
+        boolean realCard = true;
+        boolean checkNewCard = true;
+        String result = "";
+        cardCheck = CreditCard.validateCreditCardInformation(cardNo);
+        if(!cardCheck)
+        {
+            realCard = false;
+            result += "Credit Card Number is invalid\n";
+        }
+        dateCheck = CreditCard.vaildateDate(date);
+        if(!dateCheck)
+        {
+            realCard = false;
+            result += "Date is invalid\n";
+        }
+        csvCheck = CreditCard.validateCsvNo(csvNo);
+        if(!csvCheck)
+        {
+            realCard = false;
+            result += "CSV is invalid\n";
+        }  
+        checkNewCard = currentPlayer.checkNewCard(cardNo);
+        System.out.println(checkNewCard);
+        if (!checkNewCard)
+        {
+            realCard = false;
+            result = "Card No already exists in this account";
+        }
         
-        while(!cardCheck)
+        
+        if(realCard)
         {
-            System.out.println("Please enter your card number: ");
-            cardNo = in.nextLine();
-            cardCheck = CreditCard.validateCreditCardInformation(cardNo);
+            CreditCard card = new CreditCard(firstName, lastName, cardNo, date, csvNo);
+            currentPlayer.addCreditCard(card);
+            return true;
         }
-        while(!dateCheck)
+        else 
         {
-            System.out.println("Please enter your cards date (FORMAT MM/YY) ");
-            expDate = in.nextLine();
-            dateCheck = CreditCard.vaildateDate(expDate);
+            JOptionPane.showMessageDialog(null, result);
+            
         }
-        while(!csvCheck)
-        {
-            System.out.println("Please enter your csv number: ");
-            csvNo = in.nextLine();
-            csvCheck = CreditCard.validateCsvNo(csvNo);
-        }
-        CreditCard card = new CreditCard(firstName, lastName, cardNo, expDate, csvNo);
-        currentPlayer.addCreditCard(card);
+        return false;
     }
     
     /* @author Chris & Neil
     */
-    private void RemoveCreditCard(Player currentPlayer)
+    public void removeCreditCard()
     {
-       Scanner in = new Scanner(System.in);
-       System.out.println("Please enter the number of the card you want to remove: ");
-       String cardNo = in.nextLine();
-       currentPlayer.removeCreditCard(cardNo);
+       String [] creditCardArray = currentPlayer.getCreditCardsStringArray();
+       if (creditCardArray != null)
+       {
+            String cardNo = (String)JOptionPane.showInputDialog(null, "Select a card", "Remove Card", 1, null, creditCardArray, creditCardArray[0]);
+            currentPlayer.removeCreditCard(cardNo);
+       }
+       else
+           JOptionPane.showMessageDialog(null, "No Credit cards no remove");
+    }
+    
+    public void changePrimaryCard()
+    {
+        String [] creditCardArray = currentPlayer.getCreditCardsStringArray();
+        if (creditCardArray != null)
+        {
+            String cardNo = (String)JOptionPane.showInputDialog(null,"Current Primary Card: " + currentPlayer.getPrimaryCard().toString() + "\nSelect a card" , "Select Primary Card", 1, null, creditCardArray, creditCardArray[0]);
+            currentPlayer.findAndSetPrimaryCard(cardNo);
+        }
+        else
+           JOptionPane.showMessageDialog(null, "No Credit cards no set as Primary card");
     }
     
     /* @author Chris & Neil

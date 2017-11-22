@@ -151,52 +151,63 @@ public abstract class Player {
             {
                 if(this.creditCard[i].getCardNo().equalsIgnoreCase(cardNo))
                 {
-                    this.creditCard[i] = null;
-                    if (this.creditCard[i] == primaryCard)
+                    if (this.creditCard[i].getCardNo().equals(primaryCard.getCardNo()));
                     {
+                       // System.out.println("got in here");
                         this.primaryCard = null;
                         if (checkHasCard())
+                            
                             for (int j = 0; j < this.creditCard.length; j++)
                             {
                                 if (this.creditCard[j] != null)
-                                    this.primaryCard = creditCard[i];
+                                    this.primaryCard = creditCard[j];
                             }
                     }
+                    this.creditCard[i] = null;
                     System.out.println("Credit Card removed!");
                     return true;
                 }
             }
         }
-        System.out.println("There were no Credit Cards matching that number");
+        //System.out.println("There were no Credit Cards matching that number");
         return false;
     }
-    
-    public void displayCreditCards()
+    //for display
+    public String [] getCreditCardString()
     {
         int count = 0;
+        String [] returnString = new String[this.creditCard.length];
         for (int i = 0; i < this.creditCard.length; i++)
         {
             if (this.creditCard[i] != null)
             {
-                System.out.println(this.creditCard[i].toString());
+                returnString[i] = (this.creditCard[i].toString());
                 count++;
             }
         }
-        if (count == 0)
-            System.out.println("There are no credit cards to display");
+        if (count != 0)
+            return returnString;
+        else
+            return null;
     }
     
+    //for removing
     public String [] getCreditCardsStringArray()
     {
         String [] result = new String [5];
+        boolean foundCard = false;
         for (int i = 0; i < result.length; i++)
         {
             if (this.creditCard[i] != null)
             {
-                result[i] = this.creditCard[i].getCardNo().substring(this.creditCard[i].getCardNo().length() - 4);
+                foundCard = true;
+                result[i] = this.creditCard[i].getCardNo();
             }
         }
-        return result;
+        if (foundCard)
+            return result;
+        else 
+            return null;
     }
     
     public boolean checkHasCard()
@@ -208,5 +219,35 @@ public abstract class Player {
                 hasCard = true;
         }
         return hasCard;
+    }
+    
+    public boolean checkNewCard(String cardNo)
+    {
+        boolean foundCard = false;
+        for (int i = 0; i < creditCard.length; i++)
+        {
+            if (creditCard[i] != null)
+            {
+                if(creditCard[i].getCardNo().equals(cardNo))
+                {
+                    foundCard = true;
+                }
+            }
+        }
+        return !foundCard;
+    }
+    
+    public void findAndSetPrimaryCard(String cardNo)
+    {
+        for (int i = 0; i < creditCard.length; i++)
+        {
+            if (creditCard[i] != null)
+            {
+                if(creditCard[i].getCardNo().equals(cardNo))
+                {
+                    primaryCard = creditCard[i];
+                }
+            }
+        }
     }
 }

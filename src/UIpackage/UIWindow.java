@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -47,13 +48,15 @@ public class UIWindow extends JFrame implements ActionListener {
     private JButton registerB,loginB,registerConfirmB,loginConfirmB,auctionHouseB,adventureB,paymentDetailsB,buyCoinsB,quitB,goAdventureB,backB,buyB,sellB,sellSearchB;
     private JButton sellConfirmB;
     private JPanel registerP,loginP,parentP,authenticationP,menuP,adventureP,auctionHouseP,sellP,sellBronzeP,sellSilverP,sellGoldP;
-    private JPanel buyCoinsP, paymentDetailsP;
+    private JPanel buyCoinsP, paymentDetailsP, addCreditCardP;
     private JButton showCB, addCB, removeCB, changePrimaryCardB, CardBack;
     private JButton buyBronzeCoinsB, buySilverCoinsB, buyGoldCoinsB, CoinsBack;
+    private JButton cardConfirmB, cardBackB;
     private JLabel sellItemInfo;
     private JLabel[] sellItemWallet;
     private MMOAuctionHouseControl control;
     private JTextField regUsername, regPassword, regFName, regLName, logUsername, logPassword, sellSearch, sellPriceGold, sellPriceSilver, sellPriceBronze;
+    private JTextField cardFirstName, cardLastName, cardNo, cardDate, cardCSV;
     private JComboBox<String> dropDown;
     private String[] sellTiers;
     private JTabbedPane sellTabs;
@@ -74,6 +77,7 @@ public class UIWindow extends JFrame implements ActionListener {
     final static String QUIT = "QUIT";
     final static String BUYPANEL = "BUYPANEL";
     final static String SELLPANEL = "SELLPANEL";
+    final static String ADDCREDITCARD = "ADDCREDITCARD";
     public UIWindow(MMOAuctionHouseControl control){
        this.control = control;
        
@@ -207,6 +211,7 @@ public class UIWindow extends JFrame implements ActionListener {
         showCB.addActionListener(this);
         addCB = new JButton("Add Credit Card");
         addCB.addActionListener(this);
+        addCB.setActionCommand(ADDCREDITCARD);
         removeCB = new JButton("Remove Credit Card");
         removeCB.addActionListener(this);
         changePrimaryCardB = new JButton("Change Primary Card");
@@ -224,8 +229,11 @@ public class UIWindow extends JFrame implements ActionListener {
         buyCoinsP = new JPanel(new GridLayout(4,1));
         parentP.add(buyCoinsP, BUYCOINS);
         buyBronzeCoinsB = new JButton("Buy Bronze Coins");
+        buyBronzeCoinsB.addActionListener(this);
         buySilverCoinsB = new JButton("Buy Silver Coins");
+        buySilverCoinsB.addActionListener(this);
         buyGoldCoinsB = new JButton("Buy Gold Coins");
+        buyGoldCoinsB.addActionListener(this);
         CoinsBack = new JButton("Back");
         CoinsBack.addActionListener(this);
         CoinsBack.setActionCommand(MENU);
@@ -233,6 +241,32 @@ public class UIWindow extends JFrame implements ActionListener {
         buyCoinsP.add(buySilverCoinsB);
         buyCoinsP.add(buyGoldCoinsB);
         buyCoinsP.add(CoinsBack);
+        
+        //addCreditCardPanel
+        addCreditCardP = new JPanel(new GridLayout(6, 2));
+        cardFirstName = new JTextField();
+        cardLastName = new JTextField(); 
+        cardNo = new JTextField();
+        cardDate = new JTextField(); 
+        cardCSV = new JTextField();
+        addCreditCardP.add(new JLabel("First Name:"));
+        addCreditCardP.add(cardFirstName);
+        addCreditCardP.add(new JLabel("Last Name:"));
+        addCreditCardP.add(cardLastName);
+        addCreditCardP.add(new JLabel("Card No:"));
+        addCreditCardP.add(cardNo);
+        addCreditCardP.add(new JLabel("Expiry Date:"));
+        addCreditCardP.add(cardDate);
+        addCreditCardP.add(new JLabel("CSV No:"));
+        addCreditCardP.add(cardCSV);
+        cardConfirmB = new JButton("Confirm");
+        cardConfirmB.addActionListener(this);
+        cardBackB = new JButton("Back");
+        cardBackB.addActionListener(this);
+        cardBackB.setActionCommand(PAYMENTDETAILS);
+        addCreditCardP.add(cardBackB);
+        addCreditCardP.add(cardConfirmB);
+        parentP.add(addCreditCardP,ADDCREDITCARD);
         
         
         // Initialize sell panel
@@ -415,6 +449,42 @@ public class UIWindow extends JFrame implements ActionListener {
         }
         else if(source.equals(buyCoinsB)){
             c1.show(parentP, e.getActionCommand());
+        }
+        else if(source.equals(showCB)){
+            control.showCreditCards();
+        }
+        else if(source.equals(cardBackB)){
+            c1.show(parentP, e.getActionCommand());
+        }
+        else if(source.equals(addCB)){    
+            c1.show(parentP, e.getActionCommand());
+        }
+        else if(source.equals(removeCB)){
+            control.removeCreditCard();
+        }
+        else if(source.equals(changePrimaryCardB)){
+            control.changePrimaryCard();
+        }
+        else if(source.equals(buyBronzeCoinsB)){
+            control.buyBronzeCoins();
+        }
+        else if(source.equals(buySilverCoinsB)){
+            control.buySilverCoins();
+        }
+        else if(source.equals(buyGoldCoinsB)){
+            control.buyGoldCoins();
+        }
+        else if(source.equals(cardConfirmB)){
+            //JOptionPane.showMessageDialog(null, "Confirming Card");
+            boolean successfulCard = control.checkCreditCard(cardFirstName.getText(),cardLastName.getText(),cardNo.getText(),cardDate.getText(),cardCSV.getText());
+            if (successfulCard)
+            {
+                cardFirstName.setText("");
+                cardLastName.setText("");
+                cardNo.setText("");
+                cardDate.setText("");
+                cardCSV.setText("");
+            }
         }
     }
     
