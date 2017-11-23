@@ -67,9 +67,39 @@ public class MMOAuctionHouseControl implements Subject {
             return false;
     }
     
-    public void banCardNo(String cardNo)
+    public void banCardNo()
     {
-        notifyObserver(cardNo);
+        String cardNo = "";
+        boolean validCardNo = false;
+        if (currentPlayer.getTier().equalsIgnoreCase("Silver"))
+        {
+            try{
+                cardNo = (String)JOptionPane.showInputDialog(null, "Enter Card Number to ban: ");
+                if (cardNo != null)
+                {   
+                    System.out.println("Getsinhere");
+                    validCardNo = CreditCard.validateCreditCardInformation(cardNo);
+                }
+            }
+            catch(Exception e){
+                //System.out.println(e);
+                validCardNo = false;
+            } 
+            if(validCardNo)
+            {
+                notifyObserver(cardNo);
+                currentPlayer.findAndSetPrimaryCardAfterBan();
+            }
+            else if (!validCardNo){
+                //System.out.println(currentPlayer.getPrimaryCard().toString());
+                JOptionPane.showMessageDialog(null, "Invalid Card Number");
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Don't have privilage to do this");
+        }
+        System.out.println(currentPlayer.getPrimaryCard().toString() + "In ban method");
     }
     
     public void getChoiceLR(){
@@ -255,17 +285,17 @@ public class MMOAuctionHouseControl implements Subject {
     
     public void buyBronzeCoins()
     {
-        JOptionPane.showMessageDialog(null, "Buying Bronze Coins");
+        buyBronzeCoins(currentPlayer);
     }
     
     public void buySilverCoins()
     {
-        JOptionPane.showMessageDialog(null, "Buying Silver Coins");
+        buySilverCoins(currentPlayer);
     }
     
     public void buyGoldCoins()
     {
-        JOptionPane.showMessageDialog(null, "Buying Gold Coins");
+        buyGoldCoins(currentPlayer);
     }
     
     
@@ -311,6 +341,7 @@ public class MMOAuctionHouseControl implements Subject {
         {
             CreditCard card = new CreditCard(firstName, lastName, cardNo, date, csvNo);
             currentPlayer.addCreditCard(card);
+            this.addObservser(card);
             return true;
         }
         else 
@@ -340,8 +371,10 @@ public class MMOAuctionHouseControl implements Subject {
         String [] creditCardArray = currentPlayer.getCreditCardsStringArray();
         if (creditCardArray != null)
         {
+            System.out.println(currentPlayer.getPrimaryCard().toString());
             String cardNo = (String)JOptionPane.showInputDialog(null,"Current Primary Card: " + currentPlayer.getPrimaryCard().toString() + "\nSelect a card" , "Select Primary Card", 1, null, creditCardArray, creditCardArray[0]);
-            currentPlayer.findAndSetPrimaryCard(cardNo);
+            if(cardNo != null)
+                currentPlayer.findAndSetPrimaryCard(cardNo);
         }
         else
            JOptionPane.showMessageDialog(null, "No Credit cards no set as Primary card");

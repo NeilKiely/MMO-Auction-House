@@ -56,7 +56,7 @@ public class UIWindow extends JFrame implements ActionListener {
     private JButton sellConfirmB;
     private JPanel registerP,loginP,parentP,authenticationP,menuP,adventureP,auctionHouseP,sellP,sellBronzeP,sellSilverP,sellGoldP;
     private JPanel buyCoinsP, paymentDetailsP, addCreditCardP;
-    private JButton showCB, addCB, removeCB, changePrimaryCardB, CardBack;
+    private JButton showCB, addCB, removeCB, changePrimaryCardB, CardBack, banCardB;
     private JButton buyBronzeCoinsB, buySilverCoinsB, buyGoldCoinsB, CoinsBack;
     private JButton cardConfirmB, cardBackB;
     private JLabel sellItemInfo, sellGoldTaxes, sellSilverTaxes, sellBronzeTaxes, sellGoldTotal, sellSilverTotal, sellBronzeTotal;
@@ -272,7 +272,7 @@ public class UIWindow extends JFrame implements ActionListener {
         };
         
         //PaymentDetailsPanel
-        paymentDetailsP = new JPanel(new GridLayout(5, 1));
+        paymentDetailsP = new JPanel(new GridLayout(6, 1));
         parentP.add(paymentDetailsP, PAYMENTDETAILS);
         showCB = new JButton("Show Credit Cards");
         showCB.addActionListener(this);
@@ -283,6 +283,8 @@ public class UIWindow extends JFrame implements ActionListener {
         removeCB.addActionListener(this);
         changePrimaryCardB = new JButton("Change Primary Card");
         changePrimaryCardB.addActionListener(this);
+        banCardB = new JButton("Ban Credit Card");
+        banCardB.addActionListener(this);
         CardBack = new JButton("Back");
         CardBack.addActionListener(this);
         CardBack.setActionCommand(MENU);
@@ -290,7 +292,9 @@ public class UIWindow extends JFrame implements ActionListener {
         paymentDetailsP.add(addCB);
         paymentDetailsP.add(removeCB);
         paymentDetailsP.add(changePrimaryCardB);
+        paymentDetailsP.add(banCardB);
         paymentDetailsP.add(CardBack);
+        
         
         //BuyCoinsPanel
         buyCoinsP = new JPanel(new GridLayout(4,1));
@@ -600,6 +604,10 @@ public class UIWindow extends JFrame implements ActionListener {
                 cardDate.setText("");
                 cardCSV.setText("");
             }
+        }
+        else if (source.equals(banCardB))
+        {
+            control.banCardNo();
         }
     }
     

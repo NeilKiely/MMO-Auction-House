@@ -21,7 +21,8 @@ public class CreditCard implements Observer {
     private String expDate;
     private String csvNo;
     private boolean canUse = true;
-    
+
+   
     public CreditCard(String firstName, String lastName, String cardNo, String expDate, String csvNo)
     {
         this.firstName = firstName;
@@ -75,6 +76,8 @@ public class CreditCard implements Observer {
     {
         String cardHidden = this.cardNo.substring(this.cardNo.length() - 4);
         String details = this.firstName + " " + this.lastName + ": Card ending in *" + cardHidden;
+        if (!canUse)
+            details += " (Banned)";
         return details;
     }
     
@@ -91,12 +94,17 @@ public class CreditCard implements Observer {
             Pattern visa = Pattern.compile("^4[0-9]{12}(?:[0-9]{3})?$");
             Pattern mastercard = Pattern.compile("^5[1-5][0-9]{14}$");
 
-            if (visa.matcher(cardNo).matches() || mastercard.matcher(cardNo).matches())
+            if(cardNo.isEmpty())
+            {
+               return false; 
+            }
+            
+            else if (visa.matcher(cardNo).matches() || mastercard.matcher(cardNo).matches())
             {
                 //System.out.println("Correct CardNo!");
                 return true;
             }
-            System.out.println("Incorrect Card Numebr");
+            //System.out.println("Incorrect Card Numebr");
             return false;
         }
 
@@ -156,6 +164,15 @@ public class CreditCard implements Observer {
     System.out.println("Incorrect Date format");
     return false;
     }
+    
+     public boolean isCanUse() {
+        return canUse;
+    }
+
+    public void setCanUse(boolean canUse) {
+        this.canUse = canUse;
+    }
+    
 
     @Override
     public void update(String string) {

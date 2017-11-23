@@ -163,7 +163,7 @@ public abstract class Player {
                             
                             for (int j = 0; j < this.creditCard.length; j++)
                             {
-                                if (this.creditCard[j] != null)
+                                if (this.creditCard[j] != null && !this.creditCard[j].isCanUse())
                                     this.primaryCard = creditCard[j];
                             }
                     }
@@ -198,18 +198,37 @@ public abstract class Player {
     //for removing
     public String [] getCreditCardsStringArray()
     {
-        String [] result = new String [5];
+        String [] temp = new String [5];
         boolean foundCard = false;
-        for (int i = 0; i < result.length; i++)
+        int countNonNull = 0;
+        for (int i = 0; i < temp.length; i++)
         {
             if (this.creditCard[i] != null)
             {
-                foundCard = true;
-                result[i] = this.creditCard[i].getCardNo();
+                if(this.creditCard[i].isCanUse())
+                {
+                    foundCard = true;
+                    temp[i] = this.creditCard[i].getCardNo();
+                    countNonNull++;
+                }
+            }
+        }
+        String [] returnString = new String[countNonNull];
+        countNonNull = 0;
+        for (int i = 0; i < temp.length; i++)
+        {
+            if (this.creditCard[i] != null)
+            {
+                if(this.creditCard[i].isCanUse())
+                {
+                    foundCard = true;
+                    returnString[countNonNull] = this.creditCard[i].getCardNo();
+                    countNonNull++;
+                }
             }
         }
         if (foundCard)
-            return result;
+            return returnString;
         else 
             return null;
     }
@@ -243,13 +262,30 @@ public abstract class Player {
     
     public void findAndSetPrimaryCard(String cardNo)
     {
+        primaryCard = null;
         for (int i = 0; i < creditCard.length; i++)
         {
             if (creditCard[i] != null)
             {
-                if(creditCard[i].getCardNo().equals(cardNo))
+                if(creditCard[i].getCardNo().equals(cardNo) && creditCard[i].isCanUse())
                 {
                     primaryCard = creditCard[i];
+                }
+            }
+        }
+    }
+    
+    public void findAndSetPrimaryCardAfterBan()
+    {
+        primaryCard = null;
+        for (int i = 0; i < creditCard.length; i++)
+        {
+            if (creditCard[i] != null)
+            {
+                if(creditCard[i].isCanUse())
+                {
+                    primaryCard = creditCard[i];
+                    break;
                 }
             }
         }
