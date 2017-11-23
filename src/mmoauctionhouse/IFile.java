@@ -14,5 +14,6 @@ public interface IFile {
     void write(String [][] write);
     void get(String filepath);
     void put(String filepath);
+    void append(boolean canAppend);
     String getDelimiter();
 }

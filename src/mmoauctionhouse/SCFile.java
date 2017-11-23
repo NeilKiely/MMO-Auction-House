@@ -23,6 +23,7 @@ public class SCFile implements IFile {
     private final String delimiter = ";";
     private String writeFileName = "";
     private String readFileName = "";
+    private boolean canAppend = true;
     
     public SCFile()
     {
@@ -77,7 +78,7 @@ public class SCFile implements IFile {
     public void write(String[][] write) {
         FileWriter fw = null;
         try {
-            fw = new FileWriter(writeFileName, true);
+            fw = new FileWriter(writeFileName, canAppend);
             int largestColumn = 0;
             for (int i = 0; i < write.length;i++)
             {
@@ -123,5 +124,9 @@ public class SCFile implements IFile {
     public String getDelimiter() {
         return delimiter;
     }
-    
+
+    @Override
+    public void append(boolean canAppend) {
+        this.canAppend = canAppend;
+    }
 }

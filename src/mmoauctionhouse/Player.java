@@ -290,4 +290,15 @@ public abstract class Player {
             }
         }
     }
+    
+    public CreditCard getCreditCardByCardNo(String cardNo)
+    {
+        for (int i = 0; i < this.creditCard.length; i++)
+        {
+            if(this.creditCard[i] != null)
+                if (this.creditCard[i].getCardNo().equals(cardNo))
+                    return this.creditCard[i];
+        }
+        return null;
+    }
 }

@@ -339,4 +339,19 @@ public class ReadWriteControl {
         }
         */
     }
+    
+    public static void addCreditCard()
+    {
+    
+    }
+    
+    public static void deleteCreditCard()
+    {
+    
+    }
+    
+    public static void updateCreditCard()
+    {
+    
+    }
 }

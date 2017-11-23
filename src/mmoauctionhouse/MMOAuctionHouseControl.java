@@ -6,6 +6,7 @@ import mmoauctionhouse.creditcardpackage.CreditCard;
 import java.util.Scanner;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import mmoauctionhouse.creditcardpackage.CreditCardMapper;
 
 /**
  *
@@ -47,6 +48,12 @@ public class MMOAuctionHouseControl implements Subject {
         currentLogIn  =  LoginControl.loginProcess(userName,password);
         if(currentLogIn != null){
             currentPlayer = PlayerMapper.getPlayer(currentLogIn.getUsername());
+            CreditCard [] playersCards = CreditCardMapper.findAllPlayersCards(currentPlayer.getUsername());
+            if (playersCards != null)
+                for (int i = 0; i < playersCards.length; i++)
+                {
+                    currentPlayer.addCreditCard(playersCards[i]);
+                }
             BronzeAdventure bronze = new BronzeAdventure(currentPlayer);
             bronze.addTierCanPlay("Bronze");
             bronze.addTierCanPlay("Silver");
@@ -341,6 +348,7 @@ public class MMOAuctionHouseControl implements Subject {
         {
             CreditCard card = new CreditCard(firstName, lastName, cardNo, date, csvNo);
             currentPlayer.addCreditCard(card);
+            CreditCardMapper.addCreditCard(card, currentPlayer.getUsername());
             this.addObservser(card);
             return true;
         }
@@ -360,7 +368,10 @@ public class MMOAuctionHouseControl implements Subject {
        if (creditCardArray != null)
        {
             String cardNo = (String)JOptionPane.showInputDialog(null, "Select a card", "Remove Card", 1, null, creditCardArray, creditCardArray[0]);
+            CreditCard card = currentPlayer.getCreditCardByCardNo(cardNo);
+            CreditCardMapper.deleteCreditCard(card);
             currentPlayer.removeCreditCard(cardNo);
+            currentPlayer.findAndSetPrimaryCardAfterBan();
        }
        else
            JOptionPane.showMessageDialog(null, "No Credit cards no remove");
@@ -374,7 +385,11 @@ public class MMOAuctionHouseControl implements Subject {
             System.out.println(currentPlayer.getPrimaryCard().toString());
             String cardNo = (String)JOptionPane.showInputDialog(null,"Current Primary Card: " + currentPlayer.getPrimaryCard().toString() + "\nSelect a card" , "Select Primary Card", 1, null, creditCardArray, creditCardArray[0]);
             if(cardNo != null)
+            {
                 currentPlayer.findAndSetPrimaryCard(cardNo);
+                CreditCard card = currentPlayer.getCreditCardByCardNo(cardNo);
+                CreditCardMapper.updateCreditCard(card, currentPlayer.getUsername());
+            }
         }
         else
            JOptionPane.showMessageDialog(null, "No Credit cards no set as Primary card");

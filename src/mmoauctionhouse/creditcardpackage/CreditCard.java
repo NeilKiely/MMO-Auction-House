@@ -8,6 +8,7 @@ package mmoauctionhouse.creditcardpackage;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import mmoauctionhouse.Observer;
 
 /**
@@ -180,6 +181,10 @@ public class CreditCard implements Observer {
         {
             canUse = false;
         }
+    }
+    
+    public void chargeCard(){
+        JOptionPane.showMessageDialog(null, "Charged card:" + this.toString());
     }
 
 }
