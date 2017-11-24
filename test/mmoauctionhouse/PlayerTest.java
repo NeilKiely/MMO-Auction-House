@@ -5,8 +5,10 @@
  */
 package mmoauctionhouse;
 
-import itempackage.Item;
-import mmoauctionhouse.creditcardpackage.CreditCard;
+import Player.Bronze;
+import Player.Player;
+import Item.Item;
+import CreditCard.CreditCard;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
