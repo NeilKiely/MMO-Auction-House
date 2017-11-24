@@ -278,6 +278,8 @@ public class ReadWriteControl {
         
         String [][] tempListArray = null;
         ifile.get(filePath);
+        ifile.put(filePath);
+        
         tempListArray = ifile.read();
         
         int oldInvCount = 0;
@@ -289,23 +291,38 @@ public class ReadWriteControl {
             }
         }
         
-        // TODO: find out what size is bigger. Current inv size, or new inv size
-        
+        int oldItemCounter = 0;
         String [][] allPlayersNewItems = new String[tempListArray.length - oldInvCount + playerInv.getNumOfItems()][tempListArray[0].length];
         for (int i = 0; i < allPlayersNewItems.length; i++) {
-            allPlayersNewItems[i] = tempListArray[i];
-            if (tempListArray[i][0].equals(playerName)) {
+            allPlayersNewItems[i] = tempListArray[oldItemCounter];
+            if (tempListArray[oldItemCounter][0].equals(playerName)) {
                 i++;
                 for (int j = 0; j < playerInv.getNumOfItems(); j++) {
                     String[] temp = playerInv.findItemToStringInformation(playerInv.getItemName(j)).split(ifile.getDelimiter());
-                    for (int k = 0; k < temp.length; k++) {
-                        allPlayersNewItems[i + j] = temp;
-                    }
+                    allPlayersNewItems[i + j] = temp;
                 }
-                i += oldInvCount - 2;
+                oldItemCounter += oldInvCount;
+                i += playerInv.getNumOfItems() - 1;
             }
+            oldItemCounter++;
         }
         
+        ifile.append(false);
         ifile.write(allPlayersNewItems);
+    }
+    
+    public static void addCreditCard()
+    {
+    
+    }
+    
+    public static void deleteCreditCard()
+    {
+    
+    }
+    
+    public static void updateCreditCard()
+    {
+    
     }
 }

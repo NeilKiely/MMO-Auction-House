@@ -2,6 +2,8 @@ package Control;
 
 import Player.PlayerMapper;
 
+import mmoauctionhouse.creditcardpackage.CreditCardMapper;
+
 /**
  *
  * @author Vilius
@@ -13,6 +15,7 @@ public class MMOAuctionHouse {
         IFileFactory.addIFile("TDFile", new TDFile());
         PlayerMapper.setIFile(IFileFactory.getIFile("SCFile"));
         ReadWriteControl.setIFile(IFileFactory.getIFile("SCFile"));
+        CreditCardMapper.setIFile(IFileFactory.getIFile("SCFile"));
         MMOAuctionHouseControl simulation = MMOAuctionHouseControl.getInstance();
     }
     

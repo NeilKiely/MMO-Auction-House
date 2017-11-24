@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Pattern;
 import Control.Observer;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -180,6 +182,10 @@ public class CreditCard implements Observer {
         {
             canUse = false;
         }
+    }
+    
+    public void chargeCard(){
+        JOptionPane.showMessageDialog(null, "Charged card:" + this.toString());
     }
 
 }
