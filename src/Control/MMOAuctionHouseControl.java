@@ -251,6 +251,11 @@ public class MMOAuctionHouseControl implements Subject {
         return sell;
     }
     
+    public BuyControl retrieveBuy() {
+        BuyControl buy = new BuyControl(currentPlayer);
+        return buy;
+    }
+    
     /* @author Chris & Neil
     */
     private void paymentDetails(Player currentPlayer){

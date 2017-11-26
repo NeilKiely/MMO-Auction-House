@@ -21,6 +21,9 @@ public class ItemToBuy {
           this.price = aPrice;
           this.seller = aSeller;
     }
+    public String getName() {
+        return item.getName();
+    }
     public String getDescription(){
         return this.item.getDescription();
     }
@@ -32,6 +35,9 @@ public class ItemToBuy {
     }
     public Item getItem(){
         return this.item;
+    }
+    public String getTier() {
+        return item.getTier();
     }
     public String toStringToFile(){
         return this.item.toStringToFile();

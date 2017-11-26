@@ -54,6 +54,10 @@ public abstract class Player {
         wallet = new Wallet(startingMoney);
     }
     
+    public void deductBronzeCoins(int amount) {
+        wallet.reduceAmount(amount);
+    }
+    
     public void setTier(String tier) {
         this.tier = tier;
     }

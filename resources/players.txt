@@ -1,13 +1,17 @@
-worm;Silver;20;95432;9
+worm;Silver;20;95432;13
 Chest;Bulletproof Vest1;Bronze;4.0;Vitality=3;Dexterity=1
 Chest;Bulletproof Vest8;Bronze;4.0;Vitality=3;Dexterity=1
 Chest;Bulletproof Vest4;Bronze;4.0;Vitality=3;Dexterity=1
 Chest;Bulletproof Vest6;Bronze;4.0;Vitality=3;Dexterity=1
 Chest;Bulletproof Vest7;Bronze;4.0;Vitality=3;Dexterity=1
 Chest;Bulletproof Vest7;Bronze;4.0;Vitality=3;Dexterity=1
-Chest;Bulletproof Vest7;Bronze;4.0;Vitality=3;Dexterity=1
-Chest;Bulletproof Vest7;Bronze;4.0;Vitality=3;Dexterity=1
 Chest;Bulletproof Vest0;Bronze;4.0;Vitality=3;Dexterity=1
+Dagger;Switchblade2;Silver;1.0;LifeSteal=1;CritChance=3;CritDamage=2
+Dagger;Switchblade;Silver;1.0;LifeSteal=1;CritChance=3;CritDamage=2
+Dagger;Switchblade2;Silver;1.0;LifeSteal=1;CritChance=3;CritDamage=2
+Chest;Bulletproof Vest7;Bronze;4.0;Vitality=3;Dexterity=1
+Dagger;Switchblade3;Silver;1.0;LifeSteal=1;CritChance=3;CritDamage=2
+Dagger;Switchblade2;Silver;1.0;LifeSteal=1;CritChance=3;CritDamage=2
 Todd;Bronze;20;0;0
 Blah;Bronze;20;0;0
 JohnnyE;Bronze;20;0;0

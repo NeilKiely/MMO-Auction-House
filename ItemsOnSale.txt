@@ -1,2 +1,4 @@
 Dagger;Switchblade;Silver;1.0;LifeSteal=1;CritChance=3;CritDamage=2;10000;worm
 Chest;Bulletproof Vest5;Bronze;4.0;Vitality=3;Dexterity=1;120007;worm
+Chest;Bulletproof Vest4;Bronze;4.0;Vitality=3;Dexterity=1;120007;worm
+Chest;Bulletproof Vest7;Bronze;4.0;Vitality=3;Dexterity=1;1;worm

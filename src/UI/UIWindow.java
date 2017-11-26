@@ -5,6 +5,7 @@
  */
 package UI;
 
+import AuctionHouse.BuyControl;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -52,26 +53,32 @@ class WindowEventHandler extends WindowAdapter {
 
 public class UIWindow extends JFrame implements ActionListener {
     private JFrame frame;
-    private JButton registerB,loginB,registerConfirmB,loginConfirmB,auctionHouseB,adventureB,paymentDetailsB,buyCoinsB,quitB,goAdventureB,backB,buyB,sellB,sellSearchB;
-    private JButton sellConfirmB;
-    private JPanel registerP,loginP,parentP,authenticationP,menuP,adventureP,auctionHouseP,sellP,sellBronzeP,sellSilverP,sellGoldP;
+    private JButton registerB,loginB,registerConfirmB,loginConfirmB,auctionHouseB,adventureB,paymentDetailsB,buyCoinsB,quitB,goAdventureB,
+            backB,buyB,sellB,sellSearchB,buySearchB;
+    private JButton sellConfirmB, buyConfirmB;
+    private JPanel registerP,loginP,parentP,authenticationP,menuP,adventureP,auctionHouseP,sellP,sellBronzeP,sellSilverP,sellGoldP,
+            buyP;
     private JPanel buyCoinsP, paymentDetailsP, addCreditCardP;
     private JButton showCB, addCB, removeCB, changePrimaryCardB, CardBack, banCardB;
     private JButton buyBronzeCoinsB, buySilverCoinsB, buyGoldCoinsB, CoinsBack;
     private JButton cardConfirmB, cardBackB;
-    private JLabel sellItemInfo, sellGoldTaxes, sellSilverTaxes, sellBronzeTaxes, sellGoldTotal, sellSilverTotal, sellBronzeTotal;
-    private JLabel[] sellItemWallet;
+    private JLabel sellItemInfo, sellGoldTaxes, sellSilverTaxes, sellBronzeTaxes, sellGoldTotal, sellSilverTotal, sellBronzeTotal,
+            buyItemInfo, buyGoldTotal, buySilverTotal, buyBronzeTotal, buyPriceGold, buyPriceSilver, buyPriceBronze, buyGoldTaxes,
+            buySilverTaxes, buyBronzeTaxes;
+    private JLabel[] sellItemWallet, buyItemWallet;
     private MMOAuctionHouseControl control;
-    private JTextField regUsername, regPassword, regFName, regLName, logUsername, logPassword, sellSearch, sellPriceGold, sellPriceSilver, sellPriceBronze;
+    private JTextField regUsername, regPassword, regFName, regLName, logUsername, logPassword, sellSearch, sellPriceGold, sellPriceSilver, 
+            sellPriceBronze, buySearch;
     private JTextField cardFirstName, cardLastName, cardNo, cardDate, cardCSV;
     private JComboBox<String> dropDown;
-    private String[] sellTiers;
-    private String selectedSellItem;
-    private JTabbedPane sellTabs;
-    private JList[] sellItemList;
-    private DefaultListModel[] sellItemListModel;
-    private int sellItemListLastSelection, totalPrice;
+    private String[] sellTiers, buyTiers;
+    private String selectedSellItem, selectedBuyItem;
+    private JTabbedPane sellTabs, buyTabs;
+    private JList[] sellItemList, buyItemList;
+    private DefaultListModel[] sellItemListModel, buyItemListModel;
+    private int sellItemListLastSelection, totalPrice, buyItemListLastSelection;
     private SellControl sell;
+    private BuyControl buy;
     
     
     final static String AUTHENTICATION = "AUTHENTICATION";
@@ -404,6 +411,73 @@ public class UIWindow extends JFrame implements ActionListener {
         itemSellDetails.add(new JPanel());
         itemSellDetails.add(new JPanel());
         sellP.add(itemSellDetails);
+        //*
+        // Initialize buy panel
+        buyP = new JPanel(new GridLayout(2,2));
+        parentP.add(buyP, BUYPANEL);
+        
+        
+        // Buy panel page fields
+        JPanel buyPSearchP = new JPanel(new GridLayout(1,2));
+        buySearch = new JTextField();
+        buyPSearchP.add(buySearch);
+        buySearchB = new JButton("Search");
+        buySearchB.addActionListener(this);
+        buyP.add(buyPSearchP);
+        buyPSearchP.add(buySearchB);
+        buyItemInfo = new JLabel("Item info");
+        buyP.add(buyItemInfo);
+        buyTabs = new JTabbedPane();
+        buyTabs.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                displayBuyItems("");
+            }
+        });
+        buyP.add(buyTabs);
+        JPanel itemBuyDetails = new JPanel(new GridLayout(6,4));
+        itemBuyDetails.add(new JPanel());
+        itemBuyDetails.add(new JLabel("Gold"));
+        itemBuyDetails.add(new JLabel("Silver"));
+        itemBuyDetails.add(new JLabel("Bronze"));
+        itemBuyDetails.add(new JLabel("Wallet:"));
+        buyItemWallet = new JLabel[3];
+        buyItemWallet[0] = new JLabel("0");
+        buyItemWallet[1] = new JLabel("0");
+        buyItemWallet[2] = new JLabel("0");
+        itemBuyDetails.add(buyItemWallet[0]);
+        itemBuyDetails.add(buyItemWallet[1]);
+        itemBuyDetails.add(buyItemWallet[2]);
+        itemBuyDetails.add(new JLabel("Buy for:"));
+        buyPriceGold = new JLabel("0");
+        buyPriceSilver = new JLabel("0");
+        buyPriceBronze = new JLabel("0");
+        itemBuyDetails.add(buyPriceGold);
+        itemBuyDetails.add(buyPriceSilver);
+        itemBuyDetails.add(buyPriceBronze);
+        itemBuyDetails.add(new JLabel("Taxes:"));
+        buyGoldTaxes = new JLabel("0");
+        buySilverTaxes = new JLabel("0");
+        buyBronzeTaxes = new JLabel("0");
+        itemBuyDetails.add(buyGoldTaxes);
+        itemBuyDetails.add(buySilverTaxes);
+        itemBuyDetails.add(buyBronzeTaxes);
+        buyGoldTotal = new JLabel("0");
+        buySilverTotal = new JLabel("0");
+        buyBronzeTotal = new JLabel("0");
+        itemBuyDetails.add(new JLabel("Total:"));
+        itemBuyDetails.add(buyGoldTotal);
+        itemBuyDetails.add(buySilverTotal);
+        itemBuyDetails.add(buyBronzeTotal);
+        buyConfirmB = new JButton("Buy");
+        buyConfirmB.addActionListener(this);
+        buyConfirmB.setEnabled(false);
+        itemBuyDetails.add(buyConfirmB);
+        itemBuyDetails.add(new JPanel());
+        itemBuyDetails.add(new JPanel());
+        itemBuyDetails.add(new JPanel());
+        buyP.add(itemBuyDetails);
+        
+        //*/
         
         
         frame.add(parentP);
@@ -415,12 +489,23 @@ public class UIWindow extends JFrame implements ActionListener {
         int tabIndex = sellTabs.getSelectedIndex();
         String selectedTier = sellTiers[tabIndex];
         String[] items = sell.getItemNames(selectedTier, searchFilter);
-        System.out.println("items length = " + items.length);
-        System.out.println("item = " + items[0]);
+        
         sellItemListModel[tabIndex].clear();
         
         for (int i = 0; i < items.length; i++) {
             sellItemListModel[tabIndex].addElement(items[i]);
+        }
+    }
+    
+    private void displayBuyItems(String searchFilter) {
+        int tabIndex = buyTabs.getSelectedIndex();
+        String selectedTier = buyTiers[tabIndex];
+        String[] items = buy.getItemNames(selectedTier, searchFilter);
+        
+        buyItemListModel[tabIndex].clear();
+        
+        for (int i = 0; i < items.length; i++) {
+            buyItemListModel[tabIndex].addElement(items[i]);
         }
     }
     
@@ -444,10 +529,14 @@ public class UIWindow extends JFrame implements ActionListener {
                         String itemInfo;
                         if (e.getFirstIndex() == sellItemListLastSelection) {
                             sellItemListLastSelection = e.getLastIndex();
-                            selectedSellItem = (String) sellItemListModel[sellTabs.getSelectedIndex()].getElementAt(e.getLastIndex());
+                            if (sellItemListModel[sellTabs.getSelectedIndex()].size() > e.getLastIndex()) {
+                                selectedSellItem = (String) sellItemListModel[sellTabs.getSelectedIndex()].getElementAt(e.getLastIndex());
+                            }
                         } else {
                             sellItemListLastSelection = e.getFirstIndex();
-                            selectedSellItem = (String) sellItemListModel[sellTabs.getSelectedIndex()].getElementAt(e.getFirstIndex());
+                            if (sellItemListModel[sellTabs.getSelectedIndex()].size() > e.getFirstIndex()) {
+                                selectedSellItem = (String) sellItemListModel[sellTabs.getSelectedIndex()].getElementAt(e.getFirstIndex());
+                            }
                         }
                         itemInfo = sell.findItemInformation(selectedSellItem);
                         itemInfo = "<html>" + itemInfo + "</html>";
@@ -465,10 +554,78 @@ public class UIWindow extends JFrame implements ActionListener {
         }
     }
     
+    private void createBuyTabs() {
+        buyTabs.removeAll();
+        buy = control.retrieveBuy(); 
+        buyTiers = buy.getAvailableItemTiers();
+        
+        buyItemListModel = new DefaultListModel[buyTiers.length];
+        buyItemList = new JList[buyTiers.length];
+        JScrollPane[] scrollPanes = new JScrollPane[buyTiers.length];
+        for (int i = 0; i < buyTiers.length; i++) {
+            buyItemListModel[i] = new DefaultListModel();
+            buyItemList[i] = new JList(buyItemListModel[i]);
+            
+            // List item selection event
+            buyItemList[i].addListSelectionListener(new ListSelectionListener() {
+                public void valueChanged(ListSelectionEvent e) {
+                    if (!e.getValueIsAdjusting()) {
+                        buyConfirmB.setEnabled(true);
+                        String itemInfo;
+                        if (buyItemListLastSelection != -1) {
+                            if (e.getFirstIndex() == buyItemListLastSelection) {
+                                buyItemListLastSelection = e.getLastIndex();
+                                if (buyItemListModel[buyTabs.getSelectedIndex()].size() > e.getLastIndex()) {
+                                    selectedBuyItem = (String) buyItemListModel[buyTabs.getSelectedIndex()].getElementAt(e.getLastIndex());
+                                }
+                            } else {
+                                buyItemListLastSelection = e.getFirstIndex();
+                                if (buyItemListModel[buyTabs.getSelectedIndex()].size() > e.getFirstIndex()) {
+                                    selectedBuyItem = (String) buyItemListModel[buyTabs.getSelectedIndex()].getElementAt(e.getFirstIndex());
+                                }
+                            }
+                            
+                            itemInfo = buy.findItemInformation(selectedBuyItem);
+                            itemInfo = "<html>" + itemInfo + "</html>";
+                            itemInfo = itemInfo.replaceAll(";", "<br>");
+                            buyItemInfo.setText(itemInfo);
+
+                            if (!itemInfo.equals("")) {
+                                buyPriceGold.setText(Integer.toString(buy.getGoldPrice(selectedBuyItem)));
+                                buyPriceSilver.setText(Integer.toString(buy.getSilverPrice(selectedBuyItem)));
+                                buyPriceBronze.setText(Integer.toString(buy.getBronzePrice(selectedBuyItem)));
+
+                                buyGoldTaxes.setText(Integer.toString(buy.getGoldTax(selectedBuyItem)));
+                                buySilverTaxes.setText(Integer.toString(buy.getSilverTax(selectedBuyItem)));
+                                buyBronzeTaxes.setText(Integer.toString(buy.getBronzeTax(selectedBuyItem)));
+
+                                buyGoldTotal.setText(Integer.toString(buy.getGoldPrice(selectedBuyItem) + buy.getGoldTax(selectedBuyItem)));
+                                buySilverTotal.setText(Integer.toString(buy.getSilverPrice(selectedBuyItem) + buy.getSilverTax(selectedBuyItem)));
+                                buyBronzeTotal.setText(Integer.toString(buy.getBronzePrice(selectedBuyItem) + buy.getBronzeTax(selectedBuyItem)));
+                            }
+                        }
+                    }
+                }
+            });
+            
+            scrollPanes[i] = new JScrollPane(buyItemList[i]);
+        }
+        
+        for (int i = 0; i < buyTiers.length; i++) {
+            buyTabs.addTab(buyTiers[i], scrollPanes[i]);
+        }
+    }
+    
     private void updateSellWallet() {
         sellItemWallet[0].setText(Integer.toString(sell.getGoldCoins()));
         sellItemWallet[1].setText(Integer.toString(sell.getSilverCoins()));
         sellItemWallet[2].setText(Integer.toString(sell.getBronzeCoins()));
+    }
+    
+    private void updateBuyWallet() {
+        buyItemWallet[0].setText(Integer.toString(buy.getGoldCoins()));
+        buyItemWallet[1].setText(Integer.toString(buy.getSilverCoins()));
+        buyItemWallet[2].setText(Integer.toString(buy.getBronzeCoins()));
     }
 
     // Registers a textview change listener
@@ -558,8 +715,16 @@ public class UIWindow extends JFrame implements ActionListener {
             updateSellWallet();
             c1.show(parentP, e.getActionCommand());
         }
+        else if (source.equals(buyB)) {
+            createBuyTabs();
+            updateBuyWallet();
+            c1.show(parentP, e.getActionCommand());
+        }
         else if (source.equals(sellSearchB)) {
             displaySellItems(sellSearch.getText());
+        }
+        else if (source.equals(buySearchB)) {
+            displayBuyItems(buySearch.getText());
         }
         else if(source.equals(paymentDetailsB)){
             c1.show(parentP, e.getActionCommand());
@@ -616,6 +781,12 @@ public class UIWindow extends JFrame implements ActionListener {
             sell.writeToItemsOnSale(selectedSellItem, totalPrice);
             sellConfirmB.setEnabled(false);
             sellItemInfo.setText("Sold!");
+        }
+        else if (source.equals(buyConfirmB)) {
+            if (buy.purchaseItem(selectedBuyItem)) {
+                System.out.println("Buying");
+                
+            }
         }
     }
     

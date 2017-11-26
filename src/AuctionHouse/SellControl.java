@@ -29,7 +29,6 @@ public class SellControl {
     
     public String[] getItemNames(String tier, String searchFilter) {
         String[] names = currentPlayer.getItemNames(tier, searchFilter);
-        System.out.println("name[0] = " + names[0]);
         MergeSorter sorter = new MergeSorter();
         names = sorter.sort(names);
         return names;

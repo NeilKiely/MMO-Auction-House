@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package AuctionHouse;
+import Control.MergeSorter;
 import Control.ReadWriteControl;
 import Inventory.InventoryToBuy;
 import Player.Player;
@@ -60,6 +61,105 @@ public class BuyControl {
             System.err.println("IOException: " + ioe.getMessage());
         }
     }
+    
+    public String[] getAvailableItemTiers() {
+        return listOfItems.getAvailableBuyTiers();
+    }
+    
+    public String[] getItemNames(String tier, String searchFilter) {
+        String[] names = listOfItems.getItemNames(tier, searchFilter);
+        
+        MergeSorter sorter = new MergeSorter();
+        names = sorter.sort(names);
+        return names;
+    }
+    
+    public String findItemInformation(String itemName) {
+        return listOfItems.findItemInformation(itemName);
+    }
+    
+    public int getBronzeCoins() {
+        return currentPlayer.getBronzeCoins();
+    }
+
+    public int getSilverCoins() {
+        return currentPlayer.getSilverCoins();
+    }
+
+    public int getGoldCoins() {
+        return currentPlayer.getGoldCoins();
+    }
+    
+    public int getGoldPrice(String itemName) {
+        return listOfItems.getItemPrice(itemName) / 10000;
+    }
+    
+    public int getSilverPrice(String itemName) {
+        return listOfItems.getItemPrice(itemName) / 100 - getGoldPrice(itemName) * 100;
+    }
+    
+    public int getBronzePrice(String itemName) {
+        return listOfItems.getItemPrice(itemName) - getGoldPrice(itemName) * 10000 - getSilverPrice(itemName) * 100;
+    }
+    
+    public int getGoldTax(String itemName) {
+        int price = getGoldPrice(itemName);
+        double tax = currentPlayer.getTax();
+        int taxPrice = (int) ((double) price * tax / 100);
+        return taxPrice;
+    }
+    
+    public int getSilverTax(String itemName) {
+        int price = getSilverPrice(itemName) + getGoldPrice(itemName) * 100;
+        double tax = currentPlayer.getTax();
+        int taxPrice = (int) ((double) price * tax / 100);
+        taxPrice -= getGoldTax(itemName) * 100;
+        return taxPrice;
+    }
+    
+    public int getBronzeTax(String itemName) {
+        int price = getBronzePrice(itemName) + getSilverPrice(itemName) * 100 + getGoldPrice(itemName) * 10000;
+        double tax = currentPlayer.getTax();
+        int taxPrice = (int) ((double) price * tax / 100);
+        taxPrice -= (getSilverTax(itemName) * 100 + getGoldTax(itemName) * 10000);
+        return taxPrice;
+    }
+    
+    public boolean purchaseItem(String itemName) {
+        int priceBeforeTaxes = 0;
+        priceBeforeTaxes += getGoldPrice(itemName) * 10000;
+        priceBeforeTaxes += getSilverPrice(itemName) * 100;
+        priceBeforeTaxes += getBronzePrice(itemName);
+        
+        int totalPrice = 0;
+        totalPrice += priceBeforeTaxes;
+        totalPrice += getGoldTax(itemName) * 10000;
+        totalPrice += 100 + getSilverTax(itemName) * 100;
+        totalPrice += getBronzeTax(itemName);
+        
+        int totalFunds = 0;
+        totalFunds += currentPlayer.getGoldCoins() * 10000;
+        totalFunds += currentPlayer.getSilverCoins() * 100;
+        totalFunds += currentPlayer.getBronzeCoins();
+        
+        if (totalFunds < totalPrice) {
+            return false;
+        } else {
+            // Reduce the money in the buyer's walle
+            currentPlayer.deductBronzeCoins(totalPrice);
+            // Add the item to the buyer's inventory
+            currentPlayer.addItem(listOfItems.getItem(listOfItems.findIndexOfItem(itemName)).getItem());
+            ReadWriteControl.updateInventory(currentPlayer.getUsername(), currentPlayer.getInventory());
+            // Pay the seller
+            paySeller(listOfItems.getItem(listOfItems.findIndexOfItem(itemName)).getSeller(), priceBeforeTaxes);
+            // Remove item from the items for sale list
+            listOfItems.removeItem(listOfItems.findIndexOfItem(itemName));
+            updateFile(listOfItems);
+            
+            return true;
+        }
+    }
+    
     public void listItems(){
         Scanner input = new Scanner(System.in);
         System.out.println("These are the items avalaible");
@@ -81,9 +181,11 @@ public class BuyControl {
         
         
     }
+    
     private void paySeller(String seller,int price){
         ReadWriteControl.paySellerInFile(seller,price);
     }
+    
     private void updateFile(InventoryToBuy inventory){
         ReadWriteControl.writeBuyToFile(inventory);
     }
