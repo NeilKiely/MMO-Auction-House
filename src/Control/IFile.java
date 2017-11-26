@@ -12,6 +12,7 @@ package Control;
 public interface IFile {
     String [][] read();
     void write(String [][] write);
+    void writeItemsOnSale(String [][] write);
     void get(String filepath);
     void put(String filepath);
     void append(boolean canAppend);

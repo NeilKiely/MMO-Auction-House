@@ -134,7 +134,7 @@ public class BuyControl {
         int totalPrice = 0;
         totalPrice += priceBeforeTaxes;
         totalPrice += getGoldTax(itemName) * 10000;
-        totalPrice += 100 + getSilverTax(itemName) * 100;
+        totalPrice += getSilverTax(itemName) * 100;
         totalPrice += getBronzeTax(itemName);
         
         int totalFunds = 0;
@@ -145,41 +145,21 @@ public class BuyControl {
         if (totalFunds < totalPrice) {
             return false;
         } else {
-            // Reduce the money in the buyer's walle
+            // Reduce the money in the buyer's wallet
             currentPlayer.deductBronzeCoins(totalPrice);
+            int currentWalletAmount = currentPlayer.getBronzeCoins() + currentPlayer.getSilverCoins() * 100 + currentPlayer.getGoldCoins() * 10000;
+            ReadWriteControl.updateWallet(currentPlayer.getUsername(), currentWalletAmount);
             // Add the item to the buyer's inventory
             currentPlayer.addItem(listOfItems.getItem(listOfItems.findIndexOfItem(itemName)).getItem());
             ReadWriteControl.updateInventory(currentPlayer.getUsername(), currentPlayer.getInventory());
             // Pay the seller
-            paySeller(listOfItems.getItem(listOfItems.findIndexOfItem(itemName)).getSeller(), priceBeforeTaxes);
+            ReadWriteControl.addToWallet(listOfItems.getItem(listOfItems.findIndexOfItem(itemName)).getSeller(), priceBeforeTaxes);
             // Remove item from the items for sale list
             listOfItems.removeItem(listOfItems.findIndexOfItem(itemName));
             updateFile(listOfItems);
             
             return true;
         }
-    }
-    
-    public void listItems(){
-        Scanner input = new Scanner(System.in);
-        System.out.println("These are the items avalaible");
-        System.out.println(listOfItems.toString(currentPlayer.getTier(),currentPlayer.getUsername()));
-        
-        System.out.println("Enter a number for a item you want to buy");
-        String in = input.nextLine();
-        int index = Integer.parseInt(in);
-        
-        ItemToBuy itemToBuy = listOfItems.getItem((index-1));
-        if(currentPlayer.getWallet().hasEnough(itemToBuy.getPrice())){
-            currentPlayer.getInventory().addItem(itemToBuy.getItem());
-            currentPlayer.getWallet().reduceAmount(itemToBuy.getPrice());
-            paySeller(itemToBuy.getSeller(),itemToBuy.getPrice());
-            listOfItems.removeItem(index-1);
-        }
-        System.out.println(listOfItems.getNumOfItems());
-        updateFile(listOfItems);
-        
-        
     }
     
     private void paySeller(String seller,int price){

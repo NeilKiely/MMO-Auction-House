@@ -205,7 +205,8 @@ public class ReadWriteControl {
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
         String filename = s + "\\ItemsOnSale.txt";
-            
+        
+        ifile.append(false);
         ifile.put(filename);
         
         String writeOut[][] = null;
@@ -214,7 +215,7 @@ public class ReadWriteControl {
         writeOut[0][1] = "" + price;
         writeOut[0][2] = userName;
         
-        ifile.write(writeOut);
+        ifile.writeItemsOnSale(writeOut);
     }
     
     public static void writeBuyToFile(InventoryToBuy inventory){
@@ -224,7 +225,8 @@ public class ReadWriteControl {
         String filename = s + "\\ItemsOnSale.txt";
             
         ifile.put(filename);
-        String stringForItem = "";
+        ifile.append(false);
+        
         String writeOut[][] = null;
         if (inventory.getNumOfItems() > 0)
         {
@@ -309,6 +311,46 @@ public class ReadWriteControl {
         
         ifile.append(false);
         ifile.write(allPlayersNewItems);
+    }
+    
+    public static void updateWallet(String playerName, int amount) {
+        String filePath = "resources/players.txt";
+        
+        String [][] tempListArray = null;
+        ifile.get(filePath);
+        ifile.put(filePath);
+        
+        tempListArray = ifile.read();
+        
+        // Update wallet amount on the appropriate player
+        for (int i = 0; i < tempListArray.length; i++) {
+            if (tempListArray[i][0].equals(playerName)) {
+                tempListArray[i][3] = Integer.toString(amount);
+            }
+        }
+        
+        ifile.append(false);
+        ifile.write(tempListArray);
+    }
+    
+    public static void addToWallet(String playerName, int amount) {
+        String filePath = "resources/players.txt";
+        
+        String [][] tempListArray = null;
+        ifile.get(filePath);
+        ifile.put(filePath);
+        
+        tempListArray = ifile.read();
+        
+        // Update wallet amount on the appropriate player
+        for (int i = 0; i < tempListArray.length; i++) {
+            if (tempListArray[i][0].equals(playerName)) {
+                tempListArray[i][3] = Integer.toString(Integer.parseInt(tempListArray[i][3] + amount));
+            }
+        }
+        
+        ifile.append(false);
+        ifile.write(tempListArray);
     }
     
     public static void addCreditCard()

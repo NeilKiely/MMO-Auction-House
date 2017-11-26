@@ -60,7 +60,7 @@ public class UIWindow extends JFrame implements ActionListener {
             buyP;
     private JPanel buyCoinsP, paymentDetailsP, addCreditCardP;
     private JButton showCB, addCB, removeCB, changePrimaryCardB, CardBack, banCardB;
-    private JButton buyBronzeCoinsB, buySilverCoinsB, buyGoldCoinsB, CoinsBack;
+    private JButton buyBronzeCoinsB, buySilverCoinsB, buyGoldCoinsB, CoinsBack, sellBackB, buyBackB;
     private JButton cardConfirmB, cardBackB;
     private JLabel sellItemInfo, sellGoldTaxes, sellSilverTaxes, sellBronzeTaxes, sellGoldTotal, sellSilverTotal, sellBronzeTotal,
             buyItemInfo, buyGoldTotal, buySilverTotal, buyBronzeTotal, buyPriceGold, buyPriceSilver, buyPriceBronze, buyGoldTaxes,
@@ -92,6 +92,8 @@ public class UIWindow extends JFrame implements ActionListener {
     final static String QUIT = "QUIT";
     final static String BUYPANEL = "BUYPANEL";
     final static String SELLPANEL = "SELLPANEL";
+    final static String SELLBACK = "LOGIN";
+    final static String BUYBACK = "LOGIN";
     final static String ADDCREDITCARD = "ADDCREDITCARD";
     public UIWindow(MMOAuctionHouseControl control){
        this.control = control;
@@ -407,11 +409,14 @@ public class UIWindow extends JFrame implements ActionListener {
         sellConfirmB.addActionListener(this);
         sellConfirmB.setEnabled(false);
         itemSellDetails.add(sellConfirmB);
-        itemSellDetails.add(new JPanel());
+        sellBackB = new JButton("Back");
+        sellBackB.setActionCommand(MENU);
+        sellBackB.addActionListener(this);
+        itemSellDetails.add(sellBackB);
         itemSellDetails.add(new JPanel());
         itemSellDetails.add(new JPanel());
         sellP.add(itemSellDetails);
-        //*
+        
         // Initialize buy panel
         buyP = new JPanel(new GridLayout(2,2));
         parentP.add(buyP, BUYPANEL);
@@ -472,12 +477,13 @@ public class UIWindow extends JFrame implements ActionListener {
         buyConfirmB.addActionListener(this);
         buyConfirmB.setEnabled(false);
         itemBuyDetails.add(buyConfirmB);
-        itemBuyDetails.add(new JPanel());
+        buyBackB = new JButton("Back");
+        buyBackB.setActionCommand(MENU);
+        buyBackB.addActionListener(this);
+        itemBuyDetails.add(buyBackB);
         itemBuyDetails.add(new JPanel());
         itemBuyDetails.add(new JPanel());
         buyP.add(itemBuyDetails);
-        
-        //*/
         
         
         frame.add(parentP);
@@ -784,9 +790,16 @@ public class UIWindow extends JFrame implements ActionListener {
         }
         else if (source.equals(buyConfirmB)) {
             if (buy.purchaseItem(selectedBuyItem)) {
-                System.out.println("Buying");
-                
+                updateBuyWallet();
+            } else {
+                JOptionPane.showMessageDialog(null, "You do not have enough money to purchase this item");
             }
+        }
+        else if (source.equals(buyBackB)) {
+            c1.show(parentP, e.getActionCommand());
+        }
+        else if (source.equals(sellBackB)) {
+            c1.show(parentP, e.getActionCommand());
         }
     }
     

@@ -164,7 +164,7 @@ public class MMOAuctionHouseControl implements Subject {
                     selectAdventure(currentPlayer);
                     break;
                 case "Buy":
-                    selectBuy(currentPlayer);
+                    
                     break;
                 case "Payment Details":
                     paymentDetails(currentPlayer);
@@ -237,13 +237,6 @@ public class MMOAuctionHouseControl implements Subject {
                     break;
             }
         }
-    }
-    
-   private void selectBuy(Player currentPlayer) {
-        System.out.println("Buy selected");
-        
-        BuyControl buy = new BuyControl(currentPlayer);
-        buy.listItems();
     }
     
     public SellControl retrieveSell() {
