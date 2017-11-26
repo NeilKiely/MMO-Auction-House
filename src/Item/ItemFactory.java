@@ -48,6 +48,7 @@ public class ItemFactory implements ItemFactoryInterface {
         // Add decorators onto the item
         // Start at 4, because the first 5 entries are non-effect
         for (int i = 4; i < temp.length; i++) {
+            System.out.println("temp[i] = " + temp[i]);
             String[] tempDecorator = temp[i].split("=");
             int statNum = Integer.parseInt(tempDecorator[1]);
             

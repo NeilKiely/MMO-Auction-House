@@ -30,36 +30,23 @@ public class BuyControl {
        
         currentPlayer = aPlayer;
         listOfItems = new InventoryToBuy();
-    
-     try
-        {
-            Path currentRelativePath = Paths.get("");
-            String s = currentRelativePath.toAbsolutePath().toString();
-            String filename = s + "\\ItemsOnSale.txt";
-            Scanner input = new Scanner(new File(filename)); //the true will append the new data
-             while(input.hasNextLine())
-            {
-                String temp = input.nextLine();
-                
-                ItemFactory aItemFactory = new ItemFactory();
-                String[] tempArray = temp.split(";");
-                temp = "";
-                int i ;
-                for(i = 0 ; i < tempArray.length -3;i++){
-                    temp += tempArray[i] + ";";
-                }
-                temp += tempArray[i];
-                Item aItem = aItemFactory.createItemFromString(temp);
-                ItemToBuy tempItem = new ItemToBuy(aItem, (int)Double.parseDouble(tempArray[tempArray.length -2]), tempArray[tempArray.length -1]);
-                listOfItems.addItem(tempItem);
-                
-                
+        String [][] tempItems = ReadWriteControl.readItemToBuy();
+        ItemFactory aItemFactory = new ItemFactory();
+        String temp = "";
+        for(int j= 0; j < tempItems.length;j++){
+            int i;
+            for(i = 0 ; i < tempItems[j].length -3;i++){
+                temp += tempItems[j][i] + ";";
             }
+            temp += tempItems[j][i];
+            Item aItem = aItemFactory.createItemFromString(temp);
+            ItemToBuy tempItem = new ItemToBuy(aItem, (int)Double.parseDouble(tempItems[j][tempItems[j].length -2]), tempItems[j][tempItems[j].length -1]);
+            listOfItems.addItem(tempItem);
+            temp= "";
         }
-        catch(IOException ioe)
-        {
-            System.err.println("IOException: " + ioe.getMessage());
-        }
+                
+    
+     
     }
     
     public String[] getAvailableItemTiers() {

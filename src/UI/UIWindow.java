@@ -79,7 +79,7 @@ public class UIWindow extends JFrame implements ActionListener {
     private int sellItemListLastSelection, totalPrice, buyItemListLastSelection;
     private SellControl sell;
     private BuyControl buy;
-    
+    private ChangeListener changeListner;
     
     final static String AUTHENTICATION = "AUTHENTICATION";
     final static String REGISTER = "REGISTER";
@@ -111,119 +111,39 @@ public class UIWindow extends JFrame implements ActionListener {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        authenticationP = new JPanel(new GridLayout(2,1));
-        parentP.add(authenticationP,AUTHENTICATION);
         
-        // Authentication page fields
-        registerB = new JButton("Register"); 
-        registerB.setActionCommand(REGISTER);
-        registerB.addActionListener(this);
-        authenticationP.add(registerB);
-        loginB = new JButton("Login");
-        loginB.setActionCommand(LOGIN);
-        loginB.addActionListener(this);
-        authenticationP.add(loginB);
+        authentificationP();
+        
+        registerPanel();
+       
+        loginPanel();
+        
+        menuPanel();
+        
+        adventurePanel();
         
         
+        auctionHousePanel();
         
-        registerP = new JPanel(new GridLayout(5,2));
-        parentP.add(registerP,REGISTER);
+        changeEvent();
+  
+        paymentDetailsPanel();
         
-        // Register page fields
-        registerP.add(new JLabel("Username:"));
-        regUsername = new JTextField();
-        registerP.add(regUsername);
-        registerP.add(new JLabel("Password:"));
-        regPassword = new JTextField();
-        registerP.add(regPassword);
-        registerP.add(new JLabel("First Name:"));
-        regFName = new JTextField();
-        registerP.add(regFName);
-        registerP.add(new JLabel("Last Name:"));
-        regLName = new JTextField();
-        registerP.add(regLName);
-        registerConfirmB = new JButton("Register");
-        registerConfirmB.setActionCommand(AUTHENTICATION);
-        registerConfirmB.addActionListener(this);
-        registerP.add(registerConfirmB);
+        buyCoinsPanel();
         
+        addCreditCardPanel();
         
+        sellPanel();
         
-        loginP = new JPanel(new GridLayout(3,2));
-        parentP.add(loginP,LOGIN);
-        
-        // Login page fields
-        loginP.add(new JLabel("User Name:"));
-        logUsername = new JTextField();
-        loginP.add(logUsername);
-        loginP.add(new JLabel("Password:"));
-        logPassword = new JTextField();
-        loginP.add(logPassword);
-        loginConfirmB = new JButton("Login");
-        loginConfirmB.setActionCommand(MENU);
-        loginConfirmB.addActionListener(this);
-        loginP.add(loginConfirmB);
-        
-        menuP =new JPanel(new GridLayout(5,1)); 
-        parentP.add(menuP,MENU);
-        
-        // Main menu page fields
-        auctionHouseB = new JButton("Auction house"); 
-        auctionHouseB.setActionCommand(AUCTIONHOUSE);
-        auctionHouseB.addActionListener(this);
-        menuP.add(auctionHouseB);
-        adventureB = new JButton("Adventure");
-        adventureB.setActionCommand(ADVENTURE);
-        adventureB.addActionListener(this);
-        menuP.add(adventureB);
-        paymentDetailsB = new JButton("Payment details");
-        paymentDetailsB.setActionCommand(PAYMENTDETAILS);
-        paymentDetailsB.addActionListener(this);
-        menuP.add(paymentDetailsB);
-        buyCoinsB = new JButton("Buy coins");
-        buyCoinsB.setActionCommand(BUYCOINS);
-        buyCoinsB.addActionListener(this);
-        menuP.add(buyCoinsB);
-        quitB = new JButton("Quit");
-        quitB.setActionCommand(QUIT);
-        quitB.addActionListener(this);
-        menuP.add(quitB);
-        
-        adventureP = new JPanel(new GridLayout(5,1)); 
-        parentP.add(adventureP,ADVENTURE);
-        
-        String [] choices = {"Gold","Silver","Bronze"};
-        dropDown = new JComboBox<String>(choices);
-        dropDown.setMaximumSize(dropDown.getPreferredSize()); // added code
-        dropDown.setAlignmentX(Component.CENTER_ALIGNMENT);
-        adventureP.add(dropDown);
-         
-        goAdventureB = new JButton("Find Adventure");
-        goAdventureB.setAlignmentX(Component.CENTER_ALIGNMENT); // added code
-        //goAdventureB.setActionCommand(PAYMENTDETAILS);
-        goAdventureB.addActionListener(this);
-        adventureP.add(goAdventureB);
-        backB = new JButton("Back");
-        backB.setActionCommand(MENU);
-        backB.addActionListener(this);
-        adventureP.add(backB);
-        
-        auctionHouseP = new JPanel(new GridLayout(2,1));
-        parentP.add(auctionHouseP,AUCTIONHOUSE);
-        
-        buyB = new JButton("Buy item");
-        buyB.setActionCommand(BUYPANEL);
-        buyB.addActionListener(this);
-        auctionHouseP.add(buyB);
-        
-        sellB = new JButton("Sell item");
-        sellB.setActionCommand(SELLPANEL);
-        sellB.addActionListener(this);
-        auctionHouseP.add(sellB);
+        buyPanel();
 
-
-        // Add the functionality for changing text field events
-        ChangeListener changeListner = new ChangeListener() {
+        frame.add(parentP);
+        frame.setVisible(true);
+        
+    }
+    private void changeEvent(){
+         // Add the functionality for changing text field events
+        changeListner = new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 JTextField source = (JTextField) e.getSource();
@@ -277,8 +197,122 @@ public class UIWindow extends JFrame implements ActionListener {
                 }
             }
         };
+    }
+    private void authentificationP(){
         
-        //PaymentDetailsPanel
+        authenticationP = new JPanel(new GridLayout(2,1));
+        parentP.add(authenticationP,AUTHENTICATION);
+        
+        // Authentication page fields
+        registerB = new JButton("Register"); 
+        registerB.setActionCommand(REGISTER);
+        registerB.addActionListener(this);
+        authenticationP.add(registerB);
+        loginB = new JButton("Login");
+        loginB.setActionCommand(LOGIN);
+        loginB.addActionListener(this);
+        authenticationP.add(loginB);
+    }
+    private void registerPanel(){
+         registerP = new JPanel(new GridLayout(5,2));
+        parentP.add(registerP,REGISTER);
+        
+        // Register page fields
+        registerP.add(new JLabel("Username:"));
+        regUsername = new JTextField();
+        registerP.add(regUsername);
+        registerP.add(new JLabel("Password:"));
+        regPassword = new JTextField();
+        registerP.add(regPassword);
+        registerP.add(new JLabel("First Name:"));
+        regFName = new JTextField();
+        registerP.add(regFName);
+        registerP.add(new JLabel("Last Name:"));
+        regLName = new JTextField();
+        registerP.add(regLName);
+        registerConfirmB = new JButton("Register");
+        registerConfirmB.setActionCommand(AUTHENTICATION);
+        registerConfirmB.addActionListener(this);
+        registerP.add(registerConfirmB);
+    }
+    private void loginPanel(){
+        loginP = new JPanel(new GridLayout(3,2));
+        parentP.add(loginP,LOGIN);
+        
+        // Login page fields
+        loginP.add(new JLabel("User Name:"));
+        logUsername = new JTextField();
+        loginP.add(logUsername);
+        loginP.add(new JLabel("Password:"));
+        logPassword = new JTextField();
+        loginP.add(logPassword);
+        loginConfirmB = new JButton("Login");
+        loginConfirmB.setActionCommand(MENU);
+        loginConfirmB.addActionListener(this);
+        loginP.add(loginConfirmB);
+    }
+    private void menuPanel(){
+         menuP =new JPanel(new GridLayout(5,1)); 
+        parentP.add(menuP,MENU);
+        
+        // Main menu page fields
+        auctionHouseB = new JButton("Auction house"); 
+        auctionHouseB.setActionCommand(AUCTIONHOUSE);
+        auctionHouseB.addActionListener(this);
+        menuP.add(auctionHouseB);
+        adventureB = new JButton("Adventure");
+        adventureB.setActionCommand(ADVENTURE);
+        adventureB.addActionListener(this);
+        menuP.add(adventureB);
+        paymentDetailsB = new JButton("Payment details");
+        paymentDetailsB.setActionCommand(PAYMENTDETAILS);
+        paymentDetailsB.addActionListener(this);
+        menuP.add(paymentDetailsB);
+        buyCoinsB = new JButton("Buy coins");
+        buyCoinsB.setActionCommand(BUYCOINS);
+        buyCoinsB.addActionListener(this);
+        menuP.add(buyCoinsB);
+        quitB = new JButton("Quit");
+        quitB.setActionCommand(QUIT);
+        quitB.addActionListener(this);
+        menuP.add(quitB);
+    }
+    private void adventurePanel(){
+        adventureP = new JPanel(new GridLayout(5,1)); 
+        parentP.add(adventureP,ADVENTURE);
+        
+        String [] choices = {"Gold","Silver","Bronze"};
+        dropDown = new JComboBox<String>(choices);
+        dropDown.setMaximumSize(dropDown.getPreferredSize()); // added code
+        dropDown.setAlignmentX(Component.CENTER_ALIGNMENT);
+        adventureP.add(dropDown);
+         
+        goAdventureB = new JButton("Find Adventure");
+        goAdventureB.setAlignmentX(Component.CENTER_ALIGNMENT); // added code
+        //goAdventureB.setActionCommand(PAYMENTDETAILS);
+        goAdventureB.addActionListener(this);
+        adventureP.add(goAdventureB);
+        backB = new JButton("Back");
+        backB.setActionCommand(MENU);
+        backB.addActionListener(this);
+        adventureP.add(backB);
+    }
+    private void auctionHousePanel(){
+         auctionHouseP = new JPanel(new GridLayout(2,1));
+        parentP.add(auctionHouseP,AUCTIONHOUSE);
+        
+        buyB = new JButton("Buy item");
+        buyB.setActionCommand(BUYPANEL);
+        buyB.addActionListener(this);
+        auctionHouseP.add(buyB);
+        
+        sellB = new JButton("Sell item");
+        sellB.setActionCommand(SELLPANEL);
+        sellB.addActionListener(this);
+        auctionHouseP.add(sellB);
+    }
+    private void paymentDetailsPanel(){
+          //PaymentDetailsPanel
         paymentDetailsP = new JPanel(new GridLayout(6, 1));
         parentP.add(paymentDetailsP, PAYMENTDETAILS);
         showCB = new JButton("Show Credit Cards");
@@ -301,9 +335,9 @@ public class UIWindow extends JFrame implements ActionListener {
         paymentDetailsP.add(changePrimaryCardB);
         paymentDetailsP.add(banCardB);
         paymentDetailsP.add(CardBack);
-        
-        
-        //BuyCoinsPanel
+    }
+    private void buyCoinsPanel(){
+          //BuyCoinsPanel
         buyCoinsP = new JPanel(new GridLayout(4,1));
         parentP.add(buyCoinsP, BUYCOINS);
         buyBronzeCoinsB = new JButton("Buy Bronze Coins");
@@ -319,8 +353,9 @@ public class UIWindow extends JFrame implements ActionListener {
         buyCoinsP.add(buySilverCoinsB);
         buyCoinsP.add(buyGoldCoinsB);
         buyCoinsP.add(CoinsBack);
-        
-        //addCreditCardPanel
+    }
+    private void addCreditCardPanel(){
+         //addCreditCardPanel
         addCreditCardP = new JPanel(new GridLayout(6, 2));
         cardFirstName = new JTextField();
         cardLastName = new JTextField(); 
@@ -346,7 +381,8 @@ public class UIWindow extends JFrame implements ActionListener {
         addCreditCardP.add(cardConfirmB);
         parentP.add(addCreditCardP,ADDCREDITCARD);
         
-        
+    }
+    private void sellPanel(){
         // Initialize sell panel
         sellP = new JPanel(new GridLayout(2,2));
         parentP.add(sellP, SELLPANEL);
@@ -416,8 +452,9 @@ public class UIWindow extends JFrame implements ActionListener {
         itemSellDetails.add(new JPanel());
         itemSellDetails.add(new JPanel());
         sellP.add(itemSellDetails);
-        
-        // Initialize buy panel
+    }
+    private void buyPanel(){
+         // Initialize buy panel
         buyP = new JPanel(new GridLayout(2,2));
         parentP.add(buyP, BUYPANEL);
         
@@ -484,13 +521,7 @@ public class UIWindow extends JFrame implements ActionListener {
         itemBuyDetails.add(new JPanel());
         itemBuyDetails.add(new JPanel());
         buyP.add(itemBuyDetails);
-        
-        
-        frame.add(parentP);
-        frame.setVisible(true);
-        
     }
-    
     private void displaySellItems(String searchFilter) {
         int tabIndex = sellTabs.getSelectedIndex();
         String selectedTier = sellTiers[tabIndex];
@@ -502,6 +533,7 @@ public class UIWindow extends JFrame implements ActionListener {
             sellItemListModel[tabIndex].addElement(items[i]);
         }
     }
+    
     
     private void displayBuyItems(String searchFilter) {
         int tabIndex = buyTabs.getSelectedIndex();

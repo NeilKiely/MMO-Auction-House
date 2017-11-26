@@ -98,7 +98,27 @@ public class ReadWriteControl {
         
         return users;
     }
-    
+    public static String[][] readItemToBuy() {
+        
+         Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+        String filename = s + "\\ItemsOnSale.txt";
+        
+        
+        String[] itemArr = new String[0];
+        
+        ifile.get(filename);
+        String [][] buyInventory = ifile.read();
+        for(int i = 0; i <  buyInventory.length; i++) {
+            for(int j = 0; j < buyInventory[i].length; j++) {
+                System.out.print(buyInventory[i][j] + " ");
+            }
+            System.out.println();
+        }
+        
+        
+        return buyInventory;
+    }
     public static String[] readPlayerInventory(String username) {
         File playersFile = new File("resources/players.txt");
         String[] itemArr = new String[0];
@@ -129,32 +149,7 @@ public class ReadWriteControl {
                 }
             }
         }
-        /*
-        try {
-            Scanner in = new Scanner(playersFile);
-            boolean foundPlayer = false;
-            String[] tempArr = new String[0];
-            
-            while (!foundPlayer && in.hasNext()) {
-                tempArr = in.nextLine().split(";");
-                
-                if (tempArr.length > 0 && tempArr[0].equals(username)) {
-                    foundPlayer = true;
-                    
-                    int numOfItems = Integer.parseInt(tempArr[4]);
-                    itemsArr = new String[numOfItems];
-                    
-                    for (int i = 0; i < numOfItems; i++) {
-                        itemsArr[i] = in.nextLine();
-                    }
-                }
-            }
-            
-            in.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        */
+      
         
         return itemArr;
     }
