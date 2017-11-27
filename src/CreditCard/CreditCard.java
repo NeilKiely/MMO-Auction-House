@@ -184,8 +184,9 @@ public class CreditCard implements Observer {
         }
     }
     
-    public void chargeCard(){
-        JOptionPane.showMessageDialog(null, "Charged card:" + this.toString());
+    public void chargeCard(double amount)
+    {
+        JOptionPane.showMessageDialog(null, "You're card has been charged through a third party service: \u20ac" + amount);
     }
 
 }

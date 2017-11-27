@@ -440,85 +440,108 @@ public class MMOAuctionHouseControl implements Subject {
     */
     private void buyBronzeCoins(Player currentPlayer)
     {
-        boolean keepLooping = true;
-        while (keepLooping) {
-            String selectedMenuOption = MenuControl.buyBronzeCoins();
+        if (currentPlayer.getPrimaryCard() != null)
+        {
+            boolean keepLooping = true;
+            while (keepLooping) {
+                String selectedMenuOption = MenuControl.buyBronzeCoins();
 
-            switch (selectedMenuOption) {
-                case "10 Bronze Coins (99c)":
-                    currentPlayer.getWallet().increaseAmount(10);
-                    break;
-                 case "25 Bronze Coins (\u20ac1.98)":
-                    currentPlayer.getWallet().increaseAmount(25);
-                   // System.out.println(currentPlayer.getWallet().getBronzeCoins());
-                    break;
-                case "50 Bronze Coins (\u20ac2.97)":
-                    currentPlayer.getWallet().increaseAmount(50);
-                    break;
-                case "Exit":
-                    keepLooping = false;
-                    break;
-                default:
-                    System.out.println("Uh oh! Something went wrong");
-                    break;
+                switch (selectedMenuOption) {
+                    case "10 Bronze Coins (99c)":
+                        currentPlayer.getWallet().increaseAmount(10);
+                        currentPlayer.getPrimaryCard().chargeCard(0.99);
+                        break;
+                     case "25 Bronze Coins (\u20ac1.98)":
+                        currentPlayer.getWallet().increaseAmount(25);
+                        currentPlayer.getPrimaryCard().chargeCard(1.98);
+                        break;
+                    case "50 Bronze Coins (\u20ac2.97)":
+                        currentPlayer.getWallet().increaseAmount(50);
+                        currentPlayer.getPrimaryCard().chargeCard(2.97);
+                        break;
+                    case "Exit":
+                        keepLooping = false;
+                        break;
+                    default:
+                        System.out.println("Uh oh! Something went wrong");
+                        break;
+                }
             }
         }
+        else
+            JOptionPane.showMessageDialog(null, "No current primary card found, please add a credit card or select a new primary card!");
     }
     
     /* @author Chris & Neil
     */
     private void buySilverCoins(Player currentPlayer)
     {
-        boolean keepLooping = true;
-        while (keepLooping) {
-            String selectedMenuOption = MenuControl.buySilverCoins();
+        if (currentPlayer.getPrimaryCard() != null)
+        {
+            boolean keepLooping = true;
+            while (keepLooping) {
+                String selectedMenuOption = MenuControl.buySilverCoins();
 
-            switch (selectedMenuOption) {
-                case "10 Silver Coins (\u20ac8.99)":
-                   currentPlayer.getWallet().increaseAmount(0, 10);
-                    break;
-                case "25 Silver Coins (\u20ac10.99)":
-                   currentPlayer.getWallet().increaseAmount(0, 25);
-                    break;
-                case "50 Silver Coins (\u20ac12.99)":
-                   currentPlayer.getWallet().increaseAmount(0, 50);
-                    break;
-                case "Exit":
-                    keepLooping = false;
-                    break;
-                default:
-                    System.out.println("Uh oh! Something went wrong");
-                    break;
+                switch (selectedMenuOption) {
+                    case "10 Silver Coins (\u20ac8.99)":
+                       currentPlayer.getWallet().increaseAmount(0, 10);
+                       currentPlayer.getPrimaryCard().chargeCard(8.99);
+                        break;
+                    case "25 Silver Coins (\u20ac10.99)":
+                       currentPlayer.getWallet().increaseAmount(0, 25);
+                       currentPlayer.getPrimaryCard().chargeCard(10.99);
+                        break;
+                    case "50 Silver Coins (\u20ac12.99)":
+                       currentPlayer.getWallet().increaseAmount(0, 50);
+                       currentPlayer.getPrimaryCard().chargeCard(12.99);
+                        break;
+                    case "Exit":
+                        keepLooping = false;
+                        break;
+                    default:
+                        System.out.println("Uh oh! Something went wrong");
+                        break;
+                }
             }
         }
+        else
+            JOptionPane.showMessageDialog(null, "No current primary card found, please add a credit card or select a new primary card!");
     }
     
     /* @author Chris & Neil
     */
     private void buyGoldCoins(Player currentPlayer)
     {
-        boolean keepLooping = true;
-        while (keepLooping) {
-            String selectedMenuOption = MenuControl.buyGoldCoins();
+        if (currentPlayer.getPrimaryCard() != null)
+        {
+            boolean keepLooping = true;
+            while (keepLooping) {
+                String selectedMenuOption = MenuControl.buyGoldCoins();
 
-            switch (selectedMenuOption) {
-                case "10 Gold Coins (\u20ac15.99)":
-                   currentPlayer.getWallet().increaseAmount(0,0,10);
-                    break;
-                 case "25 Gold Coins(\u20ac18.99)":
-                   currentPlayer.getWallet().increaseAmount(0,0,25);
-                    break;
-                case "50 Gold Coins(\u20ac20.99)":
-                   currentPlayer.getWallet().increaseAmount(0,0,50);
-                    break;
-                case "Exit":
-                    keepLooping = false;
-                    break;
-                default:
-                    System.out.println("Uh oh! Something went wrong");
-                    break;
+                switch (selectedMenuOption) {
+                    case "10 Gold Coins (\u20ac15.99)":
+                       currentPlayer.getWallet().increaseAmount(0,0,10);
+                       currentPlayer.getPrimaryCard().chargeCard(15.99);
+                        break;
+                     case "25 Gold Coins(\u20ac18.99)":
+                       currentPlayer.getWallet().increaseAmount(0,0,25);
+                       currentPlayer.getPrimaryCard().chargeCard(18.99);
+                        break;
+                    case "50 Gold Coins(\u20ac20.99)":
+                       currentPlayer.getWallet().increaseAmount(0,0,50);
+                       currentPlayer.getPrimaryCard().chargeCard(20.99);
+                        break;
+                    case "Exit":
+                        keepLooping = false;
+                        break;
+                    default:
+                        System.out.println("Uh oh! Something went wrong");
+                        break;
+                }
             }
         }
+        else
+            JOptionPane.showMessageDialog(null, "No current primary card found, please add a credit card or select a new primary card!");
     }
     
     private void changePrimaryPaymentCard(Player currentPlayer)
