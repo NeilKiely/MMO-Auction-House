@@ -5,7 +5,7 @@
  */
 package AuctionHouse;
 import Control.MergeSorter;
-import Control.ReadWriteControl;
+import FileReadWrite.ReadWriteControl;
 import Inventory.Inventory;
 import Player.Player;
 import Item.Item;

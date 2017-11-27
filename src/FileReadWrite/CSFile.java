@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Control;
+package FileReadWrite;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,18 +16,18 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Neil & Chris
+ * @author Neil
  */
-public class SCFile implements IFile {
-
-    private final String delimiter = ";";
+public class CSFile implements IFile {
+    
+    private final String delimiter = ",";
     private String writeFileName = "";
     private String readFileName = "";
     private boolean canAppend = true;
     
-    public SCFile()
+    public CSFile()
     {
-       
+        
     }
 
     @Override
@@ -94,6 +94,7 @@ public class SCFile implements IFile {
                     if (j < (write[i].length - 1))
                         fw.write(write[i][j] + delimiter);
                     else {
+                        System.out.println("write[i][j] = " + write[i][j]);
                         fw.write(write[i][j]);
                     }
                 }
@@ -185,4 +186,6 @@ public class SCFile implements IFile {
     public void append(boolean canAppend) {
         this.canAppend = canAppend;
     }
+    
+    
 }

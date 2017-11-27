@@ -5,7 +5,7 @@
  */
 package mmoauctionhouse.creditcardpackage;
 
-import Control.IFile;
+import FileReadWrite.IFile;
 import CreditCard.CreditCard;
 import java.io.File;
 import java.util.HashSet;

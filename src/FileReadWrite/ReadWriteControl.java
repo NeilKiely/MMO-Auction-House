@@ -1,4 +1,4 @@
-package Control;
+package FileReadWrite;
 
 import Inventory.Inventory;
 import Inventory.InventoryToBuy;

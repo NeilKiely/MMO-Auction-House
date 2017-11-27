@@ -5,7 +5,7 @@
  */
 package Player;
 
-import Control.IFile;
+import FileReadWrite.IFile;
 import Inventory.Inventory;
 import Player.Silver;
 import Player.Player;
