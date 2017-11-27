@@ -7,7 +7,7 @@ import FileReadWrite.IFileFactory;
 import FileReadWrite.SCFile;
 import Player.PlayerMapper;
 
-import mmoauctionhouse.creditcardpackage.CreditCardMapper;
+import CreditCard.CreditCardMapper;
 
 /**
  *

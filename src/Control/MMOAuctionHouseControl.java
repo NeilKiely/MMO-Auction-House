@@ -18,7 +18,7 @@ import CreditCard.CreditCard;
 import java.util.Scanner;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import mmoauctionhouse.creditcardpackage.CreditCardMapper;
+import CreditCard.CreditCardMapper;
 
 /**
  *
