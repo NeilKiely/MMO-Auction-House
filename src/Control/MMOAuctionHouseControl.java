@@ -378,10 +378,13 @@ public class MMOAuctionHouseControl implements Subject {
        if (creditCardArray != null)
        {
             String cardNo = (String)JOptionPane.showInputDialog(null, "Select a card", "Remove Card", 1, null, creditCardArray, creditCardArray[0]);
-            CreditCard card = currentPlayer.getCreditCardByCardNo(cardNo);
-            CreditCardMapper.deleteCreditCard(card);
-            currentPlayer.removeCreditCard(cardNo);
-            currentPlayer.findAndSetPrimaryCardAfterBan();
+            if (cardNo != null)
+            {
+                CreditCard card = currentPlayer.getCreditCardByCardNo(cardNo);
+                CreditCardMapper.deleteCreditCard(card);
+                currentPlayer.removeCreditCard(cardNo);
+                currentPlayer.findAndSetPrimaryCardAfterBan();
+            }
        }
        else
            JOptionPane.showMessageDialog(null, "No Credit cards no remove");

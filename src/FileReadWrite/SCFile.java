@@ -69,8 +69,10 @@ public class SCFile implements IFile {
                 line = in.nextLine();
                 returnString[i] = line.split(delimiter);
             }
+            in.close();
             return returnString;
         }
+        in.close();
         return null;
     }
 

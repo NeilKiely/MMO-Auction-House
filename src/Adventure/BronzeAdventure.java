@@ -5,6 +5,7 @@
  */
 package Adventure;
 
+import FileReadWrite.ReadWriteControl;
 import Player.Player;
 import Item.Item;
 import Item.ItemFactory;
@@ -48,6 +49,7 @@ public class BronzeAdventure implements IAdventure {
 			//System.out.println("You win");
 			Item testItem = createItem("Bronze");
                         player.addItem(testItem);
+                        ReadWriteControl.updateInventory(player.getUsername(), player.getInventory());
                         //System.out.println(testItem);
                        //System.out.println(player.toString());
                        return true;
