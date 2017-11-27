@@ -90,7 +90,7 @@ public class MMOAuctionHouseControl implements Subject {
     {
         String cardNo = "";
         boolean validCardNo = false;
-        if (currentPlayer.getTier().equalsIgnoreCase("Silver"))
+        if (currentPlayer.getTier().equalsIgnoreCase("Gold"))
         {
             try{
                 cardNo = (String)JOptionPane.showInputDialog(null, "Enter Card Number to ban: ");
