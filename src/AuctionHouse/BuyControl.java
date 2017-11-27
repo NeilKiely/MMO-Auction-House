@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package AuctionHouse;
-import Control.MergeSorter;
+import Sorter.MergeSorter;
 import FileReadWrite.ReadWriteControl;
 import Inventory.InventoryToBuy;
 import Player.Player;
